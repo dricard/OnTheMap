@@ -70,7 +70,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             if !isEmailValid(userEmail.text!) {
                 presentAlertMessage("Invalid email address", message: "Please enter a valid email address")
             } else {
-                print("process login flow")
+
                 // Step 1: set up the parameters
 
                 let bodyObject = [
@@ -80,8 +80,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     ]
                 ]
                 
-                print(bodyObject)
-
                 // 2/3 Build URL and configure the request
                 let url = NSURL(string: Constants.UDACITY.baseUrl)
                 let request = NSMutableURLRequest(URL: url!)
@@ -127,10 +125,27 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     } catch {
                         sendError("Could not parse the data returned by Udacity: \(usefulData)")
                     }
-                    
+
                     // 6. use the data
 
-                    print(parsedResult)
+                    // GUARD: is the user registered?
+                    guard let isRegistered = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.registered] as? Bool else {
+                        sendError("Account is unregistered")
+                        // TODO: display alert to user
+                        return
+                    }
+                    
+                    print(isRegistered)
+                    
+                    if isRegistered {
+                        if let uniqueKey = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.key] as? String {
+                            print(uniqueKey)
+                        } else {
+                            print(parsedResult)
+                            sendError("Could not parse unique key from user data")
+                        }
+                    }
+
                 }
                 
                 // 7. Start the request
