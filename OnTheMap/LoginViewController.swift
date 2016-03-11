@@ -10,16 +10,22 @@ import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
+    var appDelegate: AppDelegate!
+
+    // MARK: OUTLETS
     
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
     
-    // LOADING AND SET-UP
+    // MARK: LOADING AND SET-UP
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        
         userEmail.defaultTextAttributes = myTextAttributes
         userPassword.defaultTextAttributes = myTextAttributes
         userEmail.delegate = self
@@ -37,13 +43,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    // APPEARANCE AND ENABLING/DISABLING OF UI ELEMENTS
+    // MARK: APPEARANCE AND ENABLING/DISABLING OF UI ELEMENTS
     
     let myTextAttributes : [ String : AnyObject ] = [
         NSForegroundColorAttributeName: UIColor.whiteColor()
     ]
 
-    // TEXTFIELD DELEGATE
+    // MARK: TEXTFIELD DELEGATE
     
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
@@ -52,7 +58,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    // ACTIONS FROM THE INTERFACE
+    // MARK: ACTIONS FROM THE INTERFACE
     
     @IBAction func loginPressed(sender: AnyObject) {
         resignIfFirstResponder(userEmail)
@@ -65,6 +71,70 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 presentAlertMessage("Invalid email address", message: "Please enter a valid email address")
             } else {
                 print("process login flow")
+                // Step 1: set up the parameters
+
+                let bodyObject = [
+                    "udacity": [
+                        "username": "\(userEmail.text!)",
+                        "password": "\(userPassword.text!)"
+                    ]
+                ]
+                
+                print(bodyObject)
+
+                // 2/3 Build URL and configure the request
+                let url = NSURL(string: Constants.UDACITY.baseUrl)
+                let request = NSMutableURLRequest(URL: url!)
+                request.HTTPMethod = "POST"
+                request.addValue("application/json", forHTTPHeaderField: "Accept")
+                request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(bodyObject, options: [])
+
+                // 4. Make the request
+                let task = appDelegate.sharedSession.dataTaskWithRequest(request) { (data, response, error) in
+                    
+                    // MARK: Utility function
+                    func sendError(error: String) {
+                        print(error)
+                    }
+                    
+                    // GUARD: was there an error?
+                    guard (error == nil) else {
+                        sendError("There was an error with the request to Udacity API: \(error)")
+                        return
+                    }
+                    
+                    // GUARD: did we get a successful 2XX response?
+                    guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                        let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
+                        sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)")
+                        return
+                    }
+                    
+                    // GUARD: was there data returned?
+                    guard let data = data else {
+                        sendError("No data was returned by the request!")
+                        return
+                    }
+                    
+                    // Remove first character in response to get clean JSON data
+                    let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+                    
+                    // 5 Parse the data
+                    var parsedResult: AnyObject!
+                    do {
+                        parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
+                    } catch {
+                        sendError("Could not parse the data returned by Udacity: \(usefulData)")
+                    }
+                    
+                    // 6. use the data
+
+                    print(parsedResult)
+                }
+                
+                // 7. Start the request
+                task.resume()
             }
         }
     }
@@ -72,7 +142,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBAction func signUpPressed(sender: AnyObject) {
     }
     
-    // UTILITIES FUNCTIONS
+    // MARK: UTILITIES FUNCTIONS
     
     func resignIfFirstResponder(textField: UITextField) {
         if textField.isFirstResponder() {
@@ -85,7 +155,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         controller.title = title
         controller.message = message
         
-        let okAction = UIAlertAction(title: "ok", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
         controller.addAction(okAction)
         self.presentViewController(controller, animated: true, completion: nil)
         
@@ -101,7 +171,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // KEYBOARD FUNCTIONS
+    // MARK: KEYBOARD FUNCTIONS
 
     func keyboardWillShow(notification: NSNotification) {
         //get screen height

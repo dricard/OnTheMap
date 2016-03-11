@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
+		216C3D0A1C93523300443DDB /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D091C93523300443DDB /* Networking.swift */; };
 		21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C088D51C92024F00CFF134 /* AppDelegate.swift */; };
 		21C088DB1C92024F00CFF134 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C088D91C92024F00CFF134 /* Main.storyboard */; };
 		21C088DD1C92024F00CFF134 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21C088DC1C92024F00CFF134 /* Assets.xcassets */; };
@@ -35,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		216C3D091C93523300443DDB /* Networking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		21C088D21C92024E00CFF134 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21C088D51C92024F00CFF134 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21C088DA1C92024F00CFF134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -106,6 +110,8 @@
 				21C088E11C92024F00CFF134 /* Info.plist */,
 				21C089031C9203DE00CFF134 /* LoginViewController.swift */,
 				21C089051C9212C300CFF134 /* GCDUtilities.swift */,
+				216C3D071C934ECB00443DDB /* Constants.swift */,
+				216C3D091C93523300443DDB /* Networking.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -261,8 +267,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				21C089041C9203DE00CFF134 /* LoginViewController.swift in Sources */,
+				216C3D0A1C93523300443DDB /* Networking.swift in Sources */,
 				21C089061C9212C300CFF134 /* GCDUtilities.swift in Sources */,
 				21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */,
+				216C3D081C934ECB00443DDB /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +497,7 @@
 				21C088FC1C92024F00CFF134 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		21C088FD1C92024F00CFF134 /* Build configuration list for PBXNativeTarget "OnTheMapTests" */ = {
 			isa = XCConfigurationList;
@@ -497,6 +506,7 @@
 				21C088FF1C92024F00CFF134 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		21C089001C92024F00CFF134 /* Build configuration list for PBXNativeTarget "OnTheMapUITests" */ = {
 			isa = XCConfigurationList;
@@ -505,6 +515,7 @@
 				21C089021C92024F00CFF134 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
