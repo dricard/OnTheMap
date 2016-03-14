@@ -12,6 +12,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
 
     var appDelegate: AppDelegate!
 
+    var userLastName: String = ""
+    var userFirstName: String = ""
+    var userImageUrl: String = ""
+    
     // MARK: OUTLETS
     
     @IBOutlet weak var userEmail: UITextField!
@@ -233,16 +237,30 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             print("User first name: \(firstName)")
             print("User image url: \(userImage)")
             
-            // TODO: here segue into tab view controller passing user data collected so far
+            let userData = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: nil, mediaUrl: nil, latitude: nil, longitude: nil, createdAt: NSDate(), updatedAt: NSDate(), imageUrl: userImage)
+            
+            self.appDelegate.userInformation = userData
 
+            
+            // TODO: here segue into tab view controller passing user data collected so far
+            self.completeLogin()
             
         }
         
         // 7. Start the request
         task.resume()
 
-    
     }
+    
+    func completeLogin() {
+        performUIUpdatesOnMain {
+
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationTabBarController") as! UITabBarController
+            self.presentViewController(controller, animated: true, completion: nil)
+        }
+
+    }
+    
     
     @IBAction func signUpPressed(sender: AnyObject) {
     }

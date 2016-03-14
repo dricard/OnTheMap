@@ -122,10 +122,10 @@
             </objects>
             <point key="canvasLocation" x="8" y="497"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--LocationTabBarController-->
         <scene sceneID="uVB-ck-d4D">
             <objects>
-                <tabBarController id="jlb-iO-eky" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="LocationTabBarController" title="LocationTabBarController" id="jlb-iO-eky" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="ICa-Lv-5Ee">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -189,7 +189,7 @@
         <!--Map-->
         <scene sceneID="rA7-w2-jLM">
             <objects>
-                <navigationController id="N2N-OU-1Ky" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MapController" id="N2N-OU-1Ky" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Map" image="Map_icon" id="F6a-BJ-6v8"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SN4-Lo-HWg">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -206,7 +206,7 @@
         <!--Map View Controller-->
         <scene sceneID="s1O-V2-T7e">
             <objects>
-                <viewController id="SLz-0N-Gqh" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapView" id="SLz-0N-Gqh" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="js7-a5-lin"/>
                         <viewControllerLayoutGuide type="bottom" id="T8S-pX-VK4"/>
@@ -228,6 +228,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="32b-Et-Aq7"/>
+                    <connections>
+                        <outlet property="mapView" destination="H7L-78-BId" id="MAk-Rt-sZM"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="q4D-RG-UAv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

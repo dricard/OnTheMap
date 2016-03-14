@@ -11,12 +11,18 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-    var userFirstName: String = ""
-    var userLastName: String = ""
-    var userImageURL: String = ""
+    var appDelegate: AppDelegate!
+
+    @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        // get the app delegate
+        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+
+        print("ULN: \(appDelegate.userInformation!.lastName)")
+        print("UFN: \(appDelegate.userInformation!.firstName)")
+        print("UIU: \(appDelegate.userInformation!.imageUrl)")
     }
 }
