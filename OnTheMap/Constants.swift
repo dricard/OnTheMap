@@ -26,8 +26,9 @@ struct Constants {
         static let id = "id"
         
         // getting user public data
-        static let userDataUrl = "https://www.udacity.com/api/users/{id}"
+        static let userDataUrl = "https://www.udacity.com/api/users/"
         // user data response
+        static let user = "user"
         static let lastName = "last_name"
         static let firstName = "first_name"
         static let imageUrl = "_image_url"

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21492BCB1C970AE600D2C90C /* MapViewController.swift */; };
 		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
 		216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D0B1C9362C900443DDB /* StudentLocation.swift */; };
 		21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C088D51C92024F00CFF134 /* AppDelegate.swift */; };
@@ -37,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		21492BCB1C970AE600D2C90C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		216C3D0B1C9362C900443DDB /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		21C088D21C92024E00CFF134 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,6 +114,7 @@
 				21C089051C9212C300CFF134 /* GCDUtilities.swift */,
 				216C3D071C934ECB00443DDB /* Constants.swift */,
 				216C3D0B1C9362C900443DDB /* StudentLocation.swift */,
+				21492BCB1C970AE600D2C90C /* MapViewController.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21C089041C9203DE00CFF134 /* LoginViewController.swift in Sources */,
+				21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */,
 				21C089061C9212C300CFF134 /* GCDUtilities.swift in Sources */,
 				21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */,
 				216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */,

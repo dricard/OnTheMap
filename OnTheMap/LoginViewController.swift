@@ -64,6 +64,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         resignIfFirstResponder(userEmail)
         resignIfFirstResponder(userPassword)
         
+        
+        // First we create a session with Udacity API to authenticate the user and get a uniqueKey
         if userEmail.text!.isEmpty || userPassword.text!.isEmpty {
             presentAlertMessage("Missing credential", message: "Please enter both an email address and a password")
         } else {
@@ -123,7 +125,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     do {
                         parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
                     } catch {
-                        sendError("Could not parse the data returned by Udacity: \(usefulData)")
+                        sendError("Could not parse the data returned by Udacity create session: \(usefulData)")
                     }
 
                     // 6. use the data
@@ -140,6 +142,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                     if isRegistered {
                         if let uniqueKey = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.key] as? String {
                             print(uniqueKey)
+                            self.getUserPublicData(uniqueKey)
                         } else {
                             print(parsedResult)
                             sendError("Could not parse unique key from user data")
@@ -154,6 +157,93 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         }
     }
 
+    func getUserPublicData(uniqueKey: String) {
+        
+        // 1 set the parameters
+        // There are none
+        
+        // 2/3 Build URL and configure the request
+        let baseUrl = NSURL(string: Constants.UDACITY.userDataUrl)
+        let url = baseUrl?.URLByAppendingPathComponent(uniqueKey)
+        print(url)
+        let request = NSURLRequest(URL: url!)
+
+        // 4. Make the request
+        let task = appDelegate.sharedSession.dataTaskWithRequest(request) { (data, response, error) in
+            
+            // MARK: Utility function
+            func sendError(error: String) {
+                print(error)
+            }
+            
+            // GUARD: was there an error?
+            guard (error == nil) else {
+                sendError("There was an error with the request to Udacity API: \(error)")
+                return
+            }
+            
+            // GUARD: did we get a successful 2XX response?
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
+                sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)")
+                return
+            }
+            
+            // GUARD: was there data returned?
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            // Remove first character in response to get clean JSON data
+            let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+            
+            // 5 Parse the data
+            var parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
+            } catch {
+                sendError("Could not parse the data returned by Udacity getUserPublicData: \(usefulData)")
+            }
+            
+            // 6. use the data
+            
+            // GUARD: get the user last name
+            guard let lastName = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.lastName] as? String else {
+                sendError("Could not parse user last name")
+                // TODO: display alert to user
+                return
+            }
+ 
+            // GUARD: get the user first name
+            guard let firstName = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.firstName] as? String else {
+                sendError("Could not parse user first name")
+                // TODO: display alert to user
+                return
+            }
+
+            // GUARD: get the user image URL
+            guard let userImage = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.imageUrl] as? String else {
+                sendError("Could not parse user image URL")
+                // TODO: display alert to user
+                return
+            }
+
+            print("User last name: \(lastName)")
+            print("User first name: \(firstName)")
+            print("User image url: \(userImage)")
+            
+            // TODO: here segue into tab view controller passing user data collected so far
+
+            
+        }
+        
+        // 7. Start the request
+        task.resume()
+
+    
+    }
+    
     @IBAction func signUpPressed(sender: AnyObject) {
     }
     
