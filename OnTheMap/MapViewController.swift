@@ -24,5 +24,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("ULN: \(appDelegate.userInformation!.lastName)")
         print("UFN: \(appDelegate.userInformation!.firstName)")
         print("UIU: \(appDelegate.userInformation!.imageUrl)")
+        
+        var studentLocations = Locations()
+        studentLocations.getStudentLocations()
+        
+        
     }
 }

@@ -15,6 +15,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var sharedSession = NSURLSession.sharedSession()
     var userInformation: StudentLocation? = nil
+    var studentLocations: [StudentLocation]? = nil
 
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {

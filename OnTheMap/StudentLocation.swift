@@ -9,18 +9,18 @@
 import Foundation
 
 struct StudentLocation {
-    var uniqueKey: String? = nil
-    var firstName: String? = nil
-    var lastName: String? = nil
-    var mapString: String? = nil
-    var mediaUrl: String? = nil
-    var latitude: Float? = nil
-    var longitude: Float? = nil
-    var createdAt: NSDate? = nil
-    var updatedAt: NSDate? = nil
-    var imageUrl: String? = nil
+    var uniqueKey: String
+    var firstName: String
+    var lastName: String
+    var mapString: String
+    var mediaUrl: String
+    var latitude: Float
+    var longitude: Float
+    var createdAt: String
+    var updatedAt: String
+    var imageUrl: String
 
-    init(uniqueKey: String?, firstName: String?, lastName: String?, mapString: String?, mediaUrl: String?, latitude: Float?, longitude: Float?, createdAt: NSDate?, updatedAt: NSDate?, imageUrl: String?) {
+    init(uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaUrl: String, latitude: Float, longitude: Float, createdAt: String, updatedAt: String, imageUrl: String) {
         self.uniqueKey = uniqueKey
         self.firstName = firstName
         self.lastName = lastName

@@ -10,6 +10,7 @@
 		21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21492BCB1C970AE600D2C90C /* MapViewController.swift */; };
 		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
 		216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D0B1C9362C900443DDB /* StudentLocation.swift */; };
+		217E8D371C97432700BD661F /* Locations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 217E8D361C97432700BD661F /* Locations.swift */; };
 		21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C088D51C92024F00CFF134 /* AppDelegate.swift */; };
 		21C088DB1C92024F00CFF134 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C088D91C92024F00CFF134 /* Main.storyboard */; };
 		21C088DD1C92024F00CFF134 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21C088DC1C92024F00CFF134 /* Assets.xcassets */; };
@@ -41,6 +42,7 @@
 		21492BCB1C970AE600D2C90C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		216C3D0B1C9362C900443DDB /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
+		217E8D361C97432700BD661F /* Locations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Locations.swift; sourceTree = "<group>"; };
 		21C088D21C92024E00CFF134 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21C088D51C92024F00CFF134 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		21C088DA1C92024F00CFF134 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				216C3D071C934ECB00443DDB /* Constants.swift */,
 				216C3D0B1C9362C900443DDB /* StudentLocation.swift */,
 				21492BCB1C970AE600D2C90C /* MapViewController.swift */,
+				217E8D361C97432700BD661F /* Locations.swift */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				21C089041C9203DE00CFF134 /* LoginViewController.swift in Sources */,
 				21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */,
 				21C089061C9212C300CFF134 /* GCDUtilities.swift in Sources */,
+				217E8D371C97432700BD661F /* Locations.swift in Sources */,
 				21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */,
 				216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */,
 				216C3D081C934ECB00443DDB /* Constants.swift in Sources */,

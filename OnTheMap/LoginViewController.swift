@@ -237,7 +237,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             print("User first name: \(firstName)")
             print("User image url: \(userImage)")
             
-            let userData = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: nil, mediaUrl: nil, latitude: nil, longitude: nil, createdAt: NSDate(), updatedAt: NSDate(), imageUrl: userImage)
+            let formatter = NSDateFormatter()
+            formatter.dateFormat = "dd-MM-yyyy"
+            let stringDate: String = formatter.stringFromDate(NSDate())
+            print(stringDate)
+            
+            let userData = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: "", mediaUrl: "", latitude: 0.0, longitude: 0.0, createdAt: stringDate, updatedAt: stringDate, imageUrl: userImage)
             
             self.appDelegate.userInformation = userData
 
