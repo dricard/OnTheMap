@@ -24,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        title = "On the map"
 
         // get the app delegate
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
