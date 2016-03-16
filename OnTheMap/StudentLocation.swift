@@ -6,21 +6,23 @@
 //  Copyright © 2016 Denis Ricard. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct StudentLocation {
+    
     var uniqueKey: String
     var firstName: String
     var lastName: String
     var mapString: String
     var mediaUrl: String
-    var latitude: Float
-    var longitude: Float
+    var latitude: Double
+    var longitude: Double
     var createdAt: String
     var updatedAt: String
     var imageUrl: String
 
-    init(uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaUrl: String, latitude: Float, longitude: Float, createdAt: String, updatedAt: String, imageUrl: String) {
+    
+    init(uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaUrl: String, latitude: Double, longitude: Double, createdAt: String, updatedAt: String, imageUrl: String) {
         self.uniqueKey = uniqueKey
         self.firstName = firstName
         self.lastName = lastName
@@ -32,4 +34,6 @@ struct StudentLocation {
         self.updatedAt = updatedAt
         self.imageUrl = imageUrl
     }
+
+
 }

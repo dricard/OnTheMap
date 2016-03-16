@@ -141,14 +141,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         return
                     }
                     
-                    print(isRegistered)
-                    
                     if isRegistered {
                         if let uniqueKey = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.key] as? String {
-                            print(uniqueKey)
                             self.getUserPublicData(uniqueKey)
                         } else {
-                            print(parsedResult)
                             sendError("Could not parse unique key from user data")
                         }
                     }
@@ -169,7 +165,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // 2/3 Build URL and configure the request
         let baseUrl = NSURL(string: Constants.UDACITY.userDataUrl)
         let url = baseUrl?.URLByAppendingPathComponent(uniqueKey)
-        print(url)
         let request = NSURLRequest(URL: url!)
 
         // 4. Make the request
@@ -233,14 +228,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                 return
             }
 
-            print("User last name: \(lastName)")
-            print("User first name: \(firstName)")
-            print("User image url: \(userImage)")
-            
             let formatter = NSDateFormatter()
-            formatter.dateFormat = "dd-MM-yyyy"
+            formatter.dateFormat = "yyyy-MM-dd"
             let stringDate: String = formatter.stringFromDate(NSDate())
-            print(stringDate)
             
             let userData = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: "", mediaUrl: "", latitude: 0.0, longitude: 0.0, createdAt: stringDate, updatedAt: stringDate, imageUrl: userImage)
             
