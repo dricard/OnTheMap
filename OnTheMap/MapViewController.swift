@@ -140,6 +140,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func userTappedAddLocation(sender: AnyObject) {
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
+        self.presentViewController(controller, animated: true, completion: nil)
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {

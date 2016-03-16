@@ -258,6 +258,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func signUpPressed(sender: AnyObject) {
+        
+        // TODO: Load web page to signup to Udacity
+        
     }
     
     // MARK: UTILITIES FUNCTIONS
@@ -342,19 +345,4 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     */
 
-}
-
-extension LoginViewController {
-    
-//    private func subscribeToNotifications() {
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidShow:", name: UIKeyboardDidShowNotification, object: nil)
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardDidHide:", name: UIKeyboardDidHideNotification, object: nil)
-//
-//    }
-    
-//    private func unsubscribeFromAllNotifications() {
-//        NSNotificationCenter.defaultCenter().removeObserver(self)
-//    }
 }

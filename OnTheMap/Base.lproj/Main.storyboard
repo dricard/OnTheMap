@@ -255,6 +255,145 @@
             </objects>
             <point key="canvasLocation" x="2105" y="183"/>
         </scene>
+        <!--Location View Controller-->
+        <scene sceneID="JYu-Xa-ds6">
+            <objects>
+                <viewController storyboardIdentifier="LocationView" id="bqR-WG-xXi" customClass="LocationViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="BE6-hd-gyo"/>
+                        <viewControllerLayoutGuide type="bottom" id="dsw-ce-IvE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="E3p-5c-NCl">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDn-gJ-6dR">
+                                <rect key="frame" x="234" y="39" width="133" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="133" id="9xX-AQ-Gtn"/>
+                                    <constraint firstAttribute="height" constant="21" id="YOd-4N-5jp"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Please enter your">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="18" name="SFUIDisplay-Thin"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRs-XT-K9j">
+                                <rect key="frame" x="267" y="61" width="66" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="66" id="W0w-A4-pc2"/>
+                                    <constraint firstAttribute="height" constant="21" id="aip-xB-qwz"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Location">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="18" name="SFUIDisplay-Heavy"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8p-kJ-Z7n">
+                                <rect key="frame" x="256" y="84" width="88" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="88" id="Iue-yH-8Hv"/>
+                                    <constraint firstAttribute="height" constant="21" id="Qfd-JZ-6w6"/>
+                                </constraints>
+                                <attributedString key="attributedText">
+                                    <fragment content="Information">
+                                        <attributes>
+                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <font key="NSFont" size="18" name="SFUIDisplay-Thin"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-ku-Ln1">
+                                <rect key="frame" x="516" y="20" width="48" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="4RR-5g-esn"/>
+                                    <constraint firstAttribute="height" constant="30" id="69G-YU-5C1"/>
+                                </constraints>
+                                <state key="normal" title="Cancel"/>
+                                <connections>
+                                    <action selector="userPressedCancel:" destination="bqR-WG-xXi" eventType="touchUpInside" id="3Cb-QW-cnw"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fA1-E4-buo">
+                                <rect key="frame" x="232" y="535" width="135" height="45"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="135" id="49C-i5-Ae3"/>
+                                    <constraint firstAttribute="height" constant="45" id="QHR-JK-YWW"/>
+                                </constraints>
+                                <inset key="contentEdgeInsets" minX="5" minY="5" maxX="5" maxY="5"/>
+                                <state key="normal">
+                                    <attributedString key="attributedTitle">
+                                        <fragment content="Find Location">
+                                            <attributes>
+                                                <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <font key="NSFont" size="24" name="SFUIDisplay-Black"/>
+                                            </attributes>
+                                        </fragment>
+                                    </attributedString>
+                                </state>
+                                <connections>
+                                    <action selector="userPressedFindLocation:" destination="bqR-WG-xXi" eventType="touchUpInside" id="oYw-yE-L2r"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="MountainView, CA" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFY-BO-fmj">
+                                <rect key="frame" x="0.0" y="118" width="600" height="393"/>
+                                <color key="backgroundColor" red="0.56078431370000004" green="0.74901960779999999" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <attributedString key="attributedText">
+                                    <fragment content="MountainView, CA">
+                                        <attributes>
+                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                            <font key="NSFont" size="36" name="SFUIDisplay-Semibold"/>
+                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                        </attributes>
+                                    </fragment>
+                                </attributedString>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fA1-E4-buo" firstAttribute="top" secondItem="jFY-BO-fmj" secondAttribute="bottom" constant="24" id="0xJ-oH-VS7"/>
+                            <constraint firstItem="fA1-E4-buo" firstAttribute="top" secondItem="jFY-BO-fmj" secondAttribute="bottom" constant="24" id="FSs-hD-7si"/>
+                            <constraint firstItem="CRs-XT-K9j" firstAttribute="top" secondItem="tDn-gJ-6dR" secondAttribute="bottom" constant="1" id="IaQ-Pu-j6O"/>
+                            <constraint firstItem="dsw-ce-IvE" firstAttribute="top" secondItem="fA1-E4-buo" secondAttribute="bottom" constant="20" id="Nm7-M5-thT"/>
+                            <constraint firstItem="tDn-gJ-6dR" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="Pxd-Mb-7e8"/>
+                            <constraint firstItem="4sI-ku-Ln1" firstAttribute="top" secondItem="BE6-hd-gyo" secondAttribute="bottom" id="Tt4-6e-wOn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="4sI-ku-Ln1" secondAttribute="trailing" constant="16" id="UUq-aK-0bO"/>
+                            <constraint firstItem="jFY-BO-fmj" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="VWd-Kc-JlL"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="jFY-BO-fmj" secondAttribute="trailing" constant="-20" id="WjL-hY-JUo"/>
+                            <constraint firstItem="CRs-XT-K9j" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="f3U-Q4-pCg"/>
+                            <constraint firstItem="jFY-BO-fmj" firstAttribute="top" secondItem="z8p-kJ-Z7n" secondAttribute="bottom" constant="13" id="lNd-KF-Iuw"/>
+                            <constraint firstItem="fA1-E4-buo" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="m4Z-Jh-wyF"/>
+                            <constraint firstItem="tDn-gJ-6dR" firstAttribute="top" secondItem="BE6-hd-gyo" secondAttribute="bottom" constant="19" id="mud-20-z3m"/>
+                            <constraint firstItem="z8p-kJ-Z7n" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="nkx-KT-7yg"/>
+                            <constraint firstItem="z8p-kJ-Z7n" firstAttribute="top" secondItem="CRs-XT-K9j" secondAttribute="bottom" constant="2" id="wUD-YO-NAE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="findLocationButton" destination="fA1-E4-buo" id="cli-3N-sva"/>
+                        <outlet property="locationTextField" destination="jFY-BO-fmj" id="QFD-pQ-CNa"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="S1n-es-EsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2813" y="462"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Map_icon" width="25" height="25"/>
