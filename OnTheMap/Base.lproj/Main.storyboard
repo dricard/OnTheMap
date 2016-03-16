@@ -4,6 +4,7 @@
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Navigation items with more than one left or right bar item" minToolsVersion="7.0"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
@@ -203,10 +204,10 @@
             </objects>
             <point key="canvasLocation" x="1420" y="183"/>
         </scene>
-        <!--Map View Controller-->
+        <!--On The Map-->
         <scene sceneID="s1O-V2-T7e">
             <objects>
-                <viewController storyboardIdentifier="mapView" id="SLz-0N-Gqh" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="mapView" title="On The Map" id="SLz-0N-Gqh" customClass="MapViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="js7-a5-lin"/>
                         <viewControllerLayoutGuide type="bottom" id="T8S-pX-VK4"/>
@@ -227,7 +228,25 @@
                             <constraint firstAttribute="trailingMargin" secondItem="H7L-78-BId" secondAttribute="trailing" constant="-20" id="xhD-cb-Knp"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="32b-Et-Aq7"/>
+                    <navigationItem key="navigationItem" id="32b-Et-Aq7">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" id="CcY-3e-727">
+                            <connections>
+                                <action selector="userTappedLogout:" destination="SLz-0N-Gqh" id="qMu-qQ-hFn"/>
+                            </connections>
+                        </barButtonItem>
+                        <rightBarButtonItems>
+                            <barButtonItem systemItem="refresh" id="YeT-OP-3rG">
+                                <connections>
+                                    <action selector="userTappedRefresh:" destination="SLz-0N-Gqh" id="20m-yd-FZF"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="bookmarks" id="Mfc-56-Rs8">
+                                <connections>
+                                    <action selector="userTappedAddLocation:" destination="SLz-0N-Gqh" id="BKO-3R-WFO"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="H7L-78-BId" id="MAk-Rt-sZM"/>
                     </connections>

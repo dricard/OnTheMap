@@ -15,7 +15,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var studentLocations = [StudentLocation]()
     var annotations = [MKPointAnnotation]()
     
+    // MARK: Outlets
+    
     @IBOutlet weak var mapView: MKMapView!
+    
+    
+    // MARK: VIEW CONTROLLER
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -128,6 +133,21 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
 
+    // MARK: USER ACTIONS
+    
+    @IBAction func userTappedRefresh(sender: AnyObject) {
+        viewWillAppear(true)
+    }
+    
+    @IBAction func userTappedAddLocation(sender: AnyObject) {
+    }
+    
+    @IBAction func userTappedLogout(sender: AnyObject) {
+    }
+    
+    
+    
+    // MARK: UTILITIES FUNCTIONS
     
     func completeGetLocationData() {
 
