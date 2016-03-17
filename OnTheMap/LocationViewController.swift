@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class LocationViewController: UIViewController, UITextFieldDelegate {
 
@@ -71,12 +72,53 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBAction func userPressedFindLocation(sender: AnyObject) {
+        
+        guard let locationString = locationTextField.text else {
+            presentAlertMessage("No location information", message: "Please enter a location")
+            return
+        }
+        
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(locationString) { (data, error) -> Void in
+            
+            guard error == nil else {
+                print("Geocoder returned an error: \(error)")
+                return
+            }
+
+            guard let data = data else {
+                print("Data returned from Geocoder is nil")
+                return
+            }
+            
+            guard let location = data[0].location else {
+               print("Invalid or null location data in returned placemark")
+                return
+            }
+            
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+            
+            self.didReceiveGeocodeAddress(coordinates)
+        }
     }
     
     
     @IBAction func userPressedCancel(sender: AnyObject) {
+
+        // TODO: need to use cancelGeocode?
+        self.dismissViewControllerAnimated(true, completion: nil )
     }
-    
+
+    // MARK: GOECODE Utilities
+
+    func didReceiveGeocodeAddress(coordinates: CLLocationCoordinate2D) {
+        // do something
+        print("received location data: \(coordinates)")
+    }
+
+
     // MARK: Textfield Delegates
     
     func textFieldDidBeginEditing(textField: UITextField) {
@@ -118,6 +160,17 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    func presentAlertMessage(title: String, message: String) {
+        let controller = UIAlertController()
+        controller.title = title
+        controller.message = message
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
+        controller.addAction(okAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
+
     // MARK: KEYBOARD FUNCTIONS
     
     func keyboardWillShow(notification: NSNotification) {
