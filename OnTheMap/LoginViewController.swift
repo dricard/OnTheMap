@@ -232,7 +232,20 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             formatter.dateFormat = "yyyy-MM-dd"
             let stringDate: String = formatter.stringFromDate(NSDate())
             
-            let userData = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: "", mediaUrl: "", latitude: 0.0, longitude: 0.0, createdAt: stringDate, updatedAt: stringDate, imageUrl: userImage)
+            let userInfo: [String:AnyObject] = [
+                Constants.PARSE.uniqueKey: uniqueKey,
+                Constants.PARSE.firstName: firstName,
+                Constants.PARSE.lastName: lastName,
+                Constants.PARSE.mapString: "",
+                Constants.PARSE.mediaURL: "",
+                Constants.PARSE.latitude: 0.0,
+                Constants.PARSE.longitude: 0.0,
+                Constants.PARSE.createdAt: stringDate,
+                Constants.PARSE.updatedAt: stringDate,
+                "imageUrl": userImage
+            ]
+            
+            let userData = StudentLocation(dictionary: userInfo)
             
             self.appDelegate.userInformation = userData
 

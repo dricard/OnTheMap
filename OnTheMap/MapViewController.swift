@@ -92,29 +92,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
             for myDictionary in locationsArray {
                 
-                let uniqueKey = myDictionary[Constants.PARSE.uniqueKey] as! String
-                let firstName = myDictionary[Constants.PARSE.firstName] as! String
-                let lastName = myDictionary[Constants.PARSE.lastName] as! String
-                let mapString = myDictionary[Constants.PARSE.mapString] as! String
-                let mediaUrl = myDictionary[Constants.PARSE.mediaURL] as! String
-                let latitude = myDictionary[Constants.PARSE.latitude] as! Double
-                let longitude = myDictionary[Constants.PARSE.longitude] as! Double
-                let createdAt = myDictionary[Constants.PARSE.createdAt] as! String
-                let updatedAt = myDictionary[Constants.PARSE.updatedAt] as! String
-                let imageUrl = ""
-                
-                let studentLocation = StudentLocation(uniqueKey: uniqueKey, firstName: firstName, lastName: lastName, mapString: mapString, mediaUrl: mediaUrl, latitude: latitude, longitude: longitude, createdAt: createdAt, updatedAt: updatedAt, imageUrl: imageUrl)
-                
+                let studentLocation = StudentLocation(dictionary: myDictionary)
+
                 self.studentLocations.append(studentLocation)
 
-                let lat = CLLocationDegrees(latitude)
-                let long = CLLocationDegrees(longitude)
+                let lat = CLLocationDegrees(studentLocation.latitude)
+                let long = CLLocationDegrees(studentLocation.longitude)
                 let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
                 
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = coordinate
-                annotation.title = "\(firstName) \(lastName)"
-                annotation.subtitle = mediaUrl
+                annotation.title = "\(studentLocation.firstName) \(studentLocation.lastName)"
+                annotation.subtitle = studentLocation.mediaUrl
                 
                 // Finally we place the annotation in an array of annotations.
                 self.annotations.append(annotation)

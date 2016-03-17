@@ -21,19 +21,18 @@ struct StudentLocation {
     var updatedAt: String
     var imageUrl: String
 
-    
-    init(uniqueKey: String, firstName: String, lastName: String, mapString: String, mediaUrl: String, latitude: Double, longitude: Double, createdAt: String, updatedAt: String, imageUrl: String) {
-        self.uniqueKey = uniqueKey
-        self.firstName = firstName
-        self.lastName = lastName
-        self.mapString = mapString
-        self.mediaUrl = mediaUrl
-        self.latitude = latitude
-        self.longitude = longitude
-        self.createdAt = createdAt
-        self.updatedAt = updatedAt
-        self.imageUrl = imageUrl
+
+    init(dictionary: [String:AnyObject]) {
+         uniqueKey = dictionary[Constants.PARSE.uniqueKey] as! String
+         firstName = dictionary[Constants.PARSE.firstName] as! String
+         lastName = dictionary[Constants.PARSE.lastName] as! String
+         mapString = dictionary[Constants.PARSE.mapString] as! String
+         mediaUrl = dictionary[Constants.PARSE.mediaURL] as! String
+         latitude = dictionary[Constants.PARSE.latitude] as! Double
+         longitude = dictionary[Constants.PARSE.longitude] as! Double
+         createdAt = dictionary[Constants.PARSE.createdAt] as! String
+         updatedAt = dictionary[Constants.PARSE.updatedAt] as! String
+         imageUrl = ""
+
     }
-
-
 }
