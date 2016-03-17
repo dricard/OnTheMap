@@ -26,9 +26,20 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         // get the app delegate
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
+        
+        // TODO: remove labels in IB and reset constraints accordingly
+        // TODO: fix text label position and check if I can put both mediaURL and location
+        //       in same viewController or if the specs require two separate views.
+        
+        // Setting the labels
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenHalfWidth = screenSize.width / 2
+        let labelWidth = CGFloat(150.0)
+
         // Label
         let labelPlease = UILabel()
-        labelPlease.frame = CGRectMake(120, 40, 150, 25)
+        labelPlease.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 43, labelWidth, 25)
+        labelPlease.textAlignment = .Center
         labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
         labelPlease.text = "Please enter your"
         
@@ -36,7 +47,8 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
  
         // Label
         let labelLocation = UILabel()
-        labelLocation.frame = CGRectMake(155, 62, 150, 25)
+        labelLocation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 65, labelWidth, 25)
+        labelLocation.textAlignment = .Center
         labelLocation.font = UIFont.boldSystemFontOfSize(18)
         labelLocation.text = "location"
         
@@ -44,7 +56,8 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
         // Label
         let labelInformation = UILabel()
-        labelInformation.frame = CGRectMake(145, 84, 150, 25)
+        labelInformation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 87, labelWidth, 25)
+        labelInformation.textAlignment = .Center
         labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
         labelInformation.text = "information"
         
