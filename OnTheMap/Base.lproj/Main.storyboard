@@ -273,15 +273,7 @@
                                     <constraint firstAttribute="width" constant="133" id="9xX-AQ-Gtn"/>
                                     <constraint firstAttribute="height" constant="21" id="YOd-4N-5jp"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Please enter your">
-                                        <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <font key="NSFont" size="18" name="SFUIDisplay-Thin"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CRs-XT-K9j">
@@ -290,15 +282,7 @@
                                     <constraint firstAttribute="width" constant="66" id="W0w-A4-pc2"/>
                                     <constraint firstAttribute="height" constant="21" id="aip-xB-qwz"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Location">
-                                        <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <font key="NSFont" size="18" name="SFUIDisplay-Heavy"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="z8p-kJ-Z7n">
@@ -307,15 +291,7 @@
                                     <constraint firstAttribute="width" constant="88" id="Iue-yH-8Hv"/>
                                     <constraint firstAttribute="height" constant="21" id="Qfd-JZ-6w6"/>
                                 </constraints>
-                                <attributedString key="attributedText">
-                                    <fragment content="Information">
-                                        <attributes>
-                                            <color key="NSColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <font key="NSFont" size="18" name="SFUIDisplay-Thin"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sI-ku-Ln1">
@@ -354,15 +330,7 @@
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" usesAttributedText="YES" placeholder="MountainView, CA" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jFY-BO-fmj">
                                 <rect key="frame" x="0.0" y="118" width="600" height="393"/>
                                 <color key="backgroundColor" red="0.56078431370000004" green="0.74901960779999999" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
-                                <attributedString key="attributedText">
-                                    <fragment content="MountainView, CA">
-                                        <attributes>
-                                            <color key="NSColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <font key="NSFont" size="36" name="SFUIDisplay-Semibold"/>
-                                            <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                        </attributes>
-                                    </fragment>
-                                </attributedString>
+                                <attributedString key="attributedText"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                         </subviews>

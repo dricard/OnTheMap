@@ -17,6 +17,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var findLocationButton: UIButton!
     
+    // MARK: Text Properties
     
     
     override func viewDidLoad() {
@@ -24,7 +25,31 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
         // get the app delegate
         appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-       
+        
+        // Label
+        let labelPlease = UILabel()
+        labelPlease.frame = CGRectMake(120, 40, 150, 25)
+        labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+        labelPlease.text = "Please enter your"
+        
+        self.view.addSubview(labelPlease)
+ 
+        // Label
+        let labelLocation = UILabel()
+        labelLocation.frame = CGRectMake(155, 62, 150, 25)
+        labelLocation.font = UIFont.boldSystemFontOfSize(18)
+        labelLocation.text = "location"
+        
+        self.view.addSubview(labelLocation)
+
+        // Label
+        let labelInformation = UILabel()
+        labelInformation.frame = CGRectMake(145, 84, 150, 25)
+        labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+        labelInformation.text = "information"
+        
+        self.view.addSubview(labelInformation)
+
     }
     
     // MARK: User Actions
@@ -40,6 +65,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     // MARK: Textfield Delegates
     
     func textFieldDidBeginEditing(textField: UITextField) {
+        print("did begin editing with UITextField: \(textField)")
         textField.text = ""
     }
     
