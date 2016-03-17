@@ -12,6 +12,13 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
     var appDelegate: AppDelegate!
 
+    // MARK: VARIABLES
+    
+    let labelInformation = UILabel()
+    let labelLocation = UILabel()
+    let labelPlease = UILabel()
+
+    
     // MARK: Outlets
     
     @IBOutlet weak var locationTextField: UITextField!
@@ -31,38 +38,43 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         // TODO: fix text label position and check if I can put both mediaURL and location
         //       in same viewController or if the specs require two separate views.
         
-        // Setting the labels
-        let screenSize: CGRect = UIScreen.mainScreen().bounds
-        let screenHalfWidth = screenSize.width / 2
-        let labelWidth = CGFloat(150.0)
+//        // Setting the labels
+//        let screenSize: CGRect = UIScreen.mainScreen().bounds
+//        let screenHalfWidth = screenSize.width / 2
+//        let labelWidth = CGFloat(150.0)
 
         // Label
-        let labelPlease = UILabel()
-        labelPlease.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 43, labelWidth, 25)
-        labelPlease.textAlignment = .Center
-        labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
-        labelPlease.text = "Please enter your"
+//        let labelPlease = UILabel()
+//        labelPlease.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 43, labelWidth, 25)
+//        labelPlease.textAlignment = .Center
+//        labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+//        labelPlease.text = "Please enter your"
         
         self.view.addSubview(labelPlease)
  
         // Label
-        let labelLocation = UILabel()
-        labelLocation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 65, labelWidth, 25)
-        labelLocation.textAlignment = .Center
-        labelLocation.font = UIFont.boldSystemFontOfSize(18)
-        labelLocation.text = "location"
+//        let labelLocation = UILabel()
+//        labelLocation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 65, labelWidth, 25)
+//        labelLocation.textAlignment = .Center
+//        labelLocation.font = UIFont.boldSystemFontOfSize(18)
+//        labelLocation.text = "location"
         
         self.view.addSubview(labelLocation)
 
         // Label
-        let labelInformation = UILabel()
-        labelInformation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 87, labelWidth, 25)
-        labelInformation.textAlignment = .Center
-        labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
-        labelInformation.text = "information"
+//        let labelInformation = UILabel()
+//        labelInformation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 87, labelWidth, 25)
+//        labelInformation.textAlignment = .Center
+//        labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+//        labelInformation.text = "information"
         
         self.view.addSubview(labelInformation)
 
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        setTextLabelsForUI()
+        
     }
     
     // MARK: User Actions
@@ -85,6 +97,37 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
+    }
+    
+    // MARK: Utilities functions
+    
+    func setTextLabelsForUI() {
+ 
+        var wide = false
+
+        // Setting the labels
+        let screenSize: CGRect = UIScreen.mainScreen().bounds
+        let screenHalfWidth = screenSize.width / 2
+        let labelWidth = CGFloat(150.0)
+        
+        if wide {
+            
+        } else {
+            labelPlease.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 43, labelWidth, 25)
+            labelPlease.textAlignment = .Center
+            labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+            labelPlease.text = "Please enter your"
+
+            labelLocation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 65, labelWidth, 25)
+            labelLocation.textAlignment = .Center
+            labelLocation.font = UIFont.boldSystemFontOfSize(18)
+            labelLocation.text = "location"
+ 
+            labelInformation.frame = CGRectMake(screenHalfWidth - labelWidth / 2.0, 87, labelWidth, 25)
+            labelInformation.textAlignment = .Center
+            labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
+            labelInformation.text = "information"
+}
     }
     
     // MARK: KEYBOARD FUNCTIONS
