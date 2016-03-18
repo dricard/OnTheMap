@@ -315,10 +315,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VHG-or-9Ob">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="fA1-E4-buo" firstAttribute="top" secondItem="sli-Jt-5rd" secondAttribute="bottom" constant="38" id="0a6-B1-uGb"/>
+                            <constraint firstItem="VHG-or-9Ob" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="3yT-MJ-Eam"/>
                             <constraint firstAttribute="trailingMargin" secondItem="G75-fk-cnr" secondAttribute="trailing" constant="-20" id="46S-yG-uVA"/>
                             <constraint firstItem="jFY-BO-fmj" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="18" id="ENv-U8-vP3"/>
                             <constraint firstAttribute="trailingMargin" secondItem="jFY-BO-fmj" secondAttribute="trailing" constant="16" id="Frw-yP-kuA"/>
@@ -332,11 +336,13 @@
                             <constraint firstItem="fA1-E4-buo" firstAttribute="top" secondItem="jFY-BO-fmj" secondAttribute="bottom" constant="65" id="XWW-Dx-Qn9"/>
                             <constraint firstItem="G75-fk-cnr" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="bQN-cM-78x"/>
                             <constraint firstItem="jFY-BO-fmj" firstAttribute="top" secondItem="4sI-ku-Ln1" secondAttribute="bottom" constant="96" id="cEj-aS-bez"/>
+                            <constraint firstItem="VHG-or-9Ob" firstAttribute="centerY" secondItem="E3p-5c-NCl" secondAttribute="centerY" id="kcy-ec-PMy"/>
                             <constraint firstItem="fA1-E4-buo" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="m4Z-Jh-wyF"/>
                             <constraint firstItem="sli-Jt-5rd" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="pJw-Qn-bfJ"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="VHG-or-9Ob" id="nPy-Ss-bVV"/>
                         <outlet property="findLocationButton" destination="fA1-E4-buo" id="cli-3N-sva"/>
                         <outlet property="locationTextField" destination="jFY-BO-fmj" id="QFD-pQ-CNa"/>
                     </connections>

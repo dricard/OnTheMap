@@ -28,6 +28,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var findLocationButton: UIButton!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     // MARK: Text Properties
     
@@ -52,6 +53,8 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         labelInformation.text = "information"
         self.view.addSubview(labelInformation)
 
+        configureActivityIndicatorView()
+        
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -79,6 +82,9 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         }
         
         let geocoder = CLGeocoder()
+        
+        activityIndicator.startAnimating()
+
         geocoder.geocodeAddressString(locationString) { (data, error) -> Void in
             
             guard error == nil else {
@@ -108,6 +114,9 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     @IBAction func userPressedCancel(sender: AnyObject) {
 
         // TODO: need to use cancelGeocode?
+
+        activityIndicator.stopAnimating()
+
         self.dismissViewControllerAnimated(true, completion: nil )
     }
 
@@ -116,6 +125,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     func didReceiveGeocodeAddress(coordinates: CLLocationCoordinate2D) {
         // do something
         print("received location data: \(coordinates)")
+        activityIndicator.stopAnimating()
     }
 
 
@@ -168,6 +178,15 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
         controller.addAction(okAction)
         self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
+
+    func configureActivityIndicatorView() {
+        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+ 
+        activityIndicator.hidesWhenStopped = true
+
+        activityIndicator.color = UIColor.yellowColor()
         
     }
 
