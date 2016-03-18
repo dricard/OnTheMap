@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2147A9681C9B8AD8001F6E57 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147A9671C9B8AD7001F6E57 /* Model.swift */; };
 		21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21492BCB1C970AE600D2C90C /* MapViewController.swift */; };
 		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
 		216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D0B1C9362C900443DDB /* StudentLocation.swift */; };
@@ -39,6 +40,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2147A9671C9B8AD7001F6E57 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		21492BCB1C970AE600D2C90C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		216C3D0B1C9362C900443DDB /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
@@ -84,6 +86,52 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2147A9611C9B5821001F6E57 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				216C3D071C934ECB00443DDB /* Constants.swift */,
+				216C3D0B1C9362C900443DDB /* StudentLocation.swift */,
+				2147A9671C9B8AD7001F6E57 /* Model.swift */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		2147A9621C9B582C001F6E57 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				21C088D91C92024F00CFF134 /* Main.storyboard */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		2147A9631C9B5834001F6E57 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				21C089031C9203DE00CFF134 /* LoginViewController.swift */,
+				218D960A1C99EDBC009C70E3 /* LocationViewController.swift */,
+				21492BCB1C970AE600D2C90C /* MapViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		2147A9641C9B5859001F6E57 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				21C088DC1C92024F00CFF134 /* Assets.xcassets */,
+				21C088DE1C92024F00CFF134 /* LaunchScreen.storyboard */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		2147A9651C9B5932001F6E57 /* Supporting files */ = {
+			isa = PBXGroup;
+			children = (
+				21C089051C9212C300CFF134 /* GCDUtilities.swift */,
+				21C088E11C92024F00CFF134 /* Info.plist */,
+			);
+			name = "Supporting files";
+			sourceTree = "<group>";
+		};
 		21C088C91C92024E00CFF134 = {
 			isa = PBXGroup;
 			children = (
@@ -108,16 +156,11 @@
 			isa = PBXGroup;
 			children = (
 				21C088D51C92024F00CFF134 /* AppDelegate.swift */,
-				21C088D91C92024F00CFF134 /* Main.storyboard */,
-				21C088DC1C92024F00CFF134 /* Assets.xcassets */,
-				21C088DE1C92024F00CFF134 /* LaunchScreen.storyboard */,
-				21C088E11C92024F00CFF134 /* Info.plist */,
-				21C089031C9203DE00CFF134 /* LoginViewController.swift */,
-				21C089051C9212C300CFF134 /* GCDUtilities.swift */,
-				216C3D071C934ECB00443DDB /* Constants.swift */,
-				216C3D0B1C9362C900443DDB /* StudentLocation.swift */,
-				21492BCB1C970AE600D2C90C /* MapViewController.swift */,
-				218D960A1C99EDBC009C70E3 /* LocationViewController.swift */,
+				2147A9611C9B5821001F6E57 /* Model */,
+				2147A9621C9B582C001F6E57 /* View */,
+				2147A9631C9B5834001F6E57 /* Controller */,
+				2147A9641C9B5859001F6E57 /* Assets */,
+				2147A9651C9B5932001F6E57 /* Supporting files */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -279,6 +322,7 @@
 				21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */,
 				216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */,
 				216C3D081C934ECB00443DDB /* Constants.swift in Sources */,
+				2147A9681C9B8AD8001F6E57 /* Model.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
