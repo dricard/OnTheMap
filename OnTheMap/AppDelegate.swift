@@ -13,11 +13,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var sharedSession = NSURLSession.sharedSession()
-    var userInformation: StudentLocation? = nil
-    var studentLocations: [StudentLocation]? = nil
-
-
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
         return true
