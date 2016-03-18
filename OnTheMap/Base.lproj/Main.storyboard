@@ -351,6 +351,101 @@
             </objects>
             <point key="canvasLocation" x="2813" y="462"/>
         </scene>
+        <!--Location Posting View Controller-->
+        <scene sceneID="eog-eV-f38">
+            <objects>
+                <viewController storyboardIdentifier="LocationPostingView" id="dvl-Gf-4yc" customClass="LocationPostingViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vvd-NC-VuG"/>
+                        <viewControllerLayoutGuide type="bottom" id="azh-Na-teL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="HJc-V7-P3f">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="d0P-tc-Byy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="D61-jt-H2E">
+                                        <rect key="frame" x="0.0" y="117" width="600" height="133"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="http://udacity.com" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="g6E-2Y-wGA">
+                                                <rect key="frame" x="19" y="19" width="562" height="90"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="90" id="zcF-to-N4D"/>
+                                                </constraints>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
+                                            </textField>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.56078431370000004" green="0.74901960779999999" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="133" id="8Zp-k3-HLs"/>
+                                            <constraint firstItem="g6E-2Y-wGA" firstAttribute="leading" secondItem="D61-jt-H2E" secondAttribute="leading" constant="19" id="LVf-Vb-aEw"/>
+                                            <constraint firstAttribute="trailing" secondItem="g6E-2Y-wGA" secondAttribute="trailing" constant="19" id="f0S-i4-HMp"/>
+                                            <constraint firstItem="g6E-2Y-wGA" firstAttribute="top" secondItem="D61-jt-H2E" secondAttribute="top" constant="19" id="iii-D4-eeA"/>
+                                        </constraints>
+                                    </view>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="yVv-3e-0hz">
+                                        <rect key="frame" x="0.0" y="250" width="600" height="350"/>
+                                    </mapView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vCQ-vB-iO1">
+                                        <rect key="frame" x="245" y="532" width="111" height="41"/>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="41" id="Pva-bZ-LGl"/>
+                                            <constraint firstAttribute="width" constant="111" id="Qe5-tR-8ao"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                        <state key="normal" title="Submit">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="userPressedSubmit:" destination="dvl-Gf-4yc" eventType="touchUpInside" id="BhS-P2-yBa"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="huM-Vr-S87">
+                                        <rect key="frame" x="531" y="21" width="48" height="30"/>
+                                        <state key="normal" title="Cancel"/>
+                                        <connections>
+                                            <action selector="userPressedCancel:" destination="dvl-Gf-4yc" eventType="touchUpInside" id="oVf-rS-NkL"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" red="0.78968085860000004" green="0.78575209820000003" blue="0.79360961910000005" alpha="0.45705818970000001" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="huM-Vr-S87" secondAttribute="trailing" constant="21" id="7Kg-XV-GQK"/>
+                                    <constraint firstAttribute="bottom" secondItem="yVv-3e-0hz" secondAttribute="bottom" id="BgQ-aC-JcK"/>
+                                    <constraint firstAttribute="trailing" secondItem="D61-jt-H2E" secondAttribute="trailing" id="GAP-UX-JaV"/>
+                                    <constraint firstItem="D61-jt-H2E" firstAttribute="top" secondItem="huM-Vr-S87" secondAttribute="bottom" constant="66" id="I9u-wY-xLW"/>
+                                    <constraint firstItem="yVv-3e-0hz" firstAttribute="top" secondItem="D61-jt-H2E" secondAttribute="bottom" id="JeY-sw-Gb3"/>
+                                    <constraint firstItem="yVv-3e-0hz" firstAttribute="leading" secondItem="d0P-tc-Byy" secondAttribute="leading" id="Kod-K1-le0"/>
+                                    <constraint firstItem="D61-jt-H2E" firstAttribute="leading" secondItem="d0P-tc-Byy" secondAttribute="leading" id="N5t-mD-CC6"/>
+                                    <constraint firstAttribute="trailing" secondItem="yVv-3e-0hz" secondAttribute="trailing" id="fob-bd-AL6"/>
+                                    <constraint firstItem="vCQ-vB-iO1" firstAttribute="centerX" secondItem="d0P-tc-Byy" secondAttribute="centerX" id="hbv-r7-mO5"/>
+                                    <constraint firstAttribute="bottom" secondItem="vCQ-vB-iO1" secondAttribute="bottom" constant="27" id="hdF-W7-yGB"/>
+                                    <constraint firstItem="huM-Vr-S87" firstAttribute="top" secondItem="d0P-tc-Byy" secondAttribute="top" constant="21" id="wt6-bc-Mpy"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="d0P-tc-Byy" secondAttribute="trailing" constant="-20" id="BBk-ES-DaV"/>
+                            <constraint firstItem="d0P-tc-Byy" firstAttribute="leading" secondItem="HJc-V7-P3f" secondAttribute="leadingMargin" constant="-20" id="KOc-1E-QNj"/>
+                            <constraint firstItem="d0P-tc-Byy" firstAttribute="top" secondItem="HJc-V7-P3f" secondAttribute="topMargin" id="LeV-KL-Nq0"/>
+                            <constraint firstItem="azh-Na-teL" firstAttribute="top" secondItem="d0P-tc-Byy" secondAttribute="bottom" id="v6x-cB-dZt"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="yVv-3e-0hz" id="qvQ-m8-MZ9"/>
+                        <outlet property="urlTextField" destination="g6E-2Y-wGA" id="Sn5-BL-UYL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bA0-0S-g35" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3511" y="462"/>
+        </scene>
     </scenes>
     <resources>
         <image name="Map_icon" width="25" height="25"/>

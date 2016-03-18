@@ -12,6 +12,7 @@
 		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
 		216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D0B1C9362C900443DDB /* StudentLocation.swift */; };
 		218B6D091C9C4AFB006C88C6 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B6D081C9C4AFB006C88C6 /* API.swift */; };
+		218B6D0B1C9C81D1006C88C6 /* LocationPostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218B6D0A1C9C81D1006C88C6 /* LocationPostingViewController.swift */; };
 		218D960B1C99EDBC009C70E3 /* LocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 218D960A1C99EDBC009C70E3 /* LocationViewController.swift */; };
 		21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21C088D51C92024F00CFF134 /* AppDelegate.swift */; };
 		21C088DB1C92024F00CFF134 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 21C088D91C92024F00CFF134 /* Main.storyboard */; };
@@ -46,6 +47,7 @@
 		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		216C3D0B1C9362C900443DDB /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
 		218B6D081C9C4AFB006C88C6 /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		218B6D0A1C9C81D1006C88C6 /* LocationPostingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationPostingViewController.swift; sourceTree = "<group>"; };
 		218D960A1C99EDBC009C70E3 /* LocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationViewController.swift; sourceTree = "<group>"; };
 		21C088D21C92024E00CFF134 /* OnTheMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnTheMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21C088D51C92024F00CFF134 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				21C089031C9203DE00CFF134 /* LoginViewController.swift */,
 				218D960A1C99EDBC009C70E3 /* LocationViewController.swift */,
 				21492BCB1C970AE600D2C90C /* MapViewController.swift */,
+				218B6D0A1C9C81D1006C88C6 /* LocationPostingViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -324,6 +327,7 @@
 				21C089061C9212C300CFF134 /* GCDUtilities.swift in Sources */,
 				21C088D61C92024F00CFF134 /* AppDelegate.swift in Sources */,
 				216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */,
+				218B6D0B1C9C81D1006C88C6 /* LocationPostingViewController.swift in Sources */,
 				216C3D081C934ECB00443DDB /* Constants.swift in Sources */,
 				218B6D091C9C4AFB006C88C6 /* API.swift in Sources */,
 				2147A9681C9B8AD8001F6E57 /* Model.swift in Sources */,

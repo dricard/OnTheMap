@@ -11,7 +11,6 @@ import CoreLocation
 
 class LocationViewController: UIViewController, UITextFieldDelegate {
 
-    var appDelegate: AppDelegate!
 
     // MARK: VARIABLES
     
@@ -35,9 +34,6 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // get the app delegate
-        appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
  
         // add the text labels
         labelPlease.textAlignment = .Right
@@ -123,9 +119,13 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     // MARK: GOECODE Utilities
 
     func didReceiveGeocodeAddress(coordinates: CLLocationCoordinate2D) {
-        // do something
-        print("received location data: \(coordinates)")
+        
         activityIndicator.stopAnimating()
+        performUIUpdatesOnMain {
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationPostingView") as! LocationPostingViewController
+            controller.coordinates = coordinates
+            self.presentViewController(controller, animated: true, completion: nil)
+        }
     }
 
 
@@ -186,7 +186,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
  
         activityIndicator.hidesWhenStopped = true
 
-        activityIndicator.color = UIColor.yellowColor()
+        activityIndicator.color = UIColor.blueColor()
         
     }
 
