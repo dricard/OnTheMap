@@ -240,7 +240,7 @@
                                     <action selector="userTappedRefresh:" destination="SLz-0N-Gqh" id="20m-yd-FZF"/>
                                 </connections>
                             </barButtonItem>
-                            <barButtonItem systemItem="bookmarks" id="Mfc-56-Rs8">
+                            <barButtonItem image="MapNavBarItem" id="Mfc-56-Rs8">
                                 <connections>
                                     <action selector="userTappedAddLocation:" destination="SLz-0N-Gqh" id="BKO-3R-WFO"/>
                                 </connections>
@@ -448,6 +448,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="MapNavBarItem" width="40" height="40"/>
         <image name="Map_icon" width="25" height="25"/>
         <image name="cube" width="59" height="67"/>
         <image name="tableView" width="25" height="25"/>
