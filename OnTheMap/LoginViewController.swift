@@ -54,29 +54,35 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         resignIfFirstResponder(userEmail)
         resignIfFirstResponder(userPassword)
         
-        // authenticate with Udacity API but first check if there is a valid email and a password
-        if userEmail.text!.isEmpty || userPassword.text!.isEmpty {
+        // GUARD: first check if the user entered an email and a password
+        guard !userEmail.text!.isEmpty && !userPassword.text!.isEmpty else {
             presentAlertMessage("Missing credential", message: "Please enter both an email address and a password")
-        } else {
-            if !isEmailValid(userEmail.text!) {
-                presentAlertMessage("Invalid email address", message: "Please enter a valid email address")
-            } else {
-                let userEmailString = userEmail.text!
-                let userPasswordString = userPassword.text!
-                // call the authenticate method
-                API.sharedInstance().authenticateWithUdacity(userEmailString, userPassword: userPasswordString) { (success, error) in
-                    performUIUpdatesOnMain {
-                        if success {
-                            self.completeLogin()
-                        } else {
-                            print("Error returned by authenticateWithUdacity: \(error)")
-                            // TODO: display error to user
-                        }
+            return
+        }
+        // GUARD: check if the user entered a valid email address
+        guard isEmailValid(userEmail.text!) else {
+            presentAlertMessage("Invalid email address", message: "Please enter a valid email address")
+            return
+        }
+        // unwrap the parameters (even if they should not be nil at this point, but to be extra sure
+        // and we need non-optionals for the method call)
+        if let userEmailString = userEmail.text, userPasswordString = userPassword.text {
+        // call the authenticate method
+            API.sharedInstance().authenticateWithUdacity(userEmailString, userPassword: userPasswordString) { (success, error) in
+                performUIUpdatesOnMain {
+                    if success {
+                        self.completeLogin()
+                    } else {
+                        print("Error returned by authenticateWithUdacity: \(error)")
+                        // TODO: display error to user
                     }
                 }
             }
+        } else {
+            print("failed to unwrap optionals (userEmail or userPassword)")
+            // TODO: display error to user
         }
-    }
+     }
     
     func completeLogin() {
         performUIUpdatesOnMain {
