@@ -8,6 +8,11 @@
 
 import Foundation
 
+/// Holds all the URLs and keys of the Udacity and Parse APIs. This way if
+/// the APIs change in the futur only this files needs to be updated.
+///
+/// Use `Constants.UDACITY.parameter` to access Udacity's API parameters and
+/// `Constants.PARSE.parameter` to access Parse API parameters.
 struct Constants {
     
     // UDACITY

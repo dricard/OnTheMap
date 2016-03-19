@@ -10,8 +10,23 @@ import UIKit
 import Foundation
 import MapKit
 
+/// All networking code interfacing with APIs is contained in this class. Access through
+/// `API.sharedInstance().methodName`.
+/// ### Methods
+/// **authenticateWithUdacity**:
+/// to first login to Udacity, create a session, and get the user's
+/// public information.
+///
+/// **getLocationsData**:
+/// to get an array of students location informations.
+///
+/// ### Internal Methods
+/// **getUserPublicData**:
+/// called by `authenticateWithUdacity` to complete the login process and get the user's data.
 class API: NSObject {
 
+    /// This contains the NSURL shared session. All code requiring the shared session has been
+    /// put into this class.
     var session = NSURLSession.sharedSession()
 
     override init() {
@@ -21,10 +36,21 @@ class API: NSObject {
     // MARK: UDACITY API
 
     // First we create a session with Udacity API to authenticate the user and get a uniqueKey
-
+    
+    /// Uses REST API from Udacity to authenticate a valid user. It will then call `getUserPublicData`
+    /// which will store the user's informations in *Model.swift*.
+    /// - note: uses keys defined in struct *Constants.swift*. **Expects non-optional Strings** so
+    /// unwrap before calling this method.
+    /// - parameters:
+    ///    - userEmail: the user's email address used to login to Udacity.
+    ///    - userPassword: the user's password to login to Udacity.
+    ///    - completionHandlerForAuth: this will be passed to `getUserPublicData`
+    /// - returns:
+    ///    - success is `true` and error `nil` if login was successful and no error was returned from the API
+    ///    - success is `false` and an `NSError` if the login attempt failed
     func authenticateWithUdacity(userEmail: String, userPassword: String, completionHandlerForAuth: (success: Bool, error: NSError?) -> Void) {
         
-        // Step 1: set up the parameters
+        // 1. set up the parameters
         
         let bodyObject = [
             "udacity": [
@@ -33,7 +59,7 @@ class API: NSObject {
             ]
         ]
         
-        // 2/3 Build URL and configure the request
+        // 2./3. Build URL and configure the request
         let url = NSURL(string: Constants.UDACITY.baseUrl)
         let request = NSMutableURLRequest(URL: url!)
         request.HTTPMethod = "POST"
@@ -47,6 +73,7 @@ class API: NSObject {
             // MARK: Utility function
             func sendError(error: String) {
                 print(error)
+                // Build an informative NSError to return
                 let userInfo = [NSLocalizedDescriptionKey : error]
                 completionHandlerForAuth(success: false, error: NSError(domain: "authenticateWithUdacity", code: 1, userInfo: userInfo))
             }
@@ -70,10 +97,10 @@ class API: NSObject {
                 return
             }
             
-            // Remove first character in response to get clean JSON data
+            // Remove first character in response to get clean JSON data - specific to Udacity's API
             let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
-            // 5 Parse the data
+            // 5. Parse the data
             var parsedResult: AnyObject!
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
@@ -81,7 +108,7 @@ class API: NSObject {
                 sendError("Could not parse the data returned by Udacity create session: \(usefulData)")
             }
             
-            // 6. use the data
+            // 6. Use the data
             
             // GUARD: is the user registered?
             guard let isRegistered = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.registered] as? Bool else {
@@ -104,12 +131,21 @@ class API: NSObject {
         task.resume()
     }
 
-    func getUserPublicData(uniqueKey: String, completionHandlerForAuth: (success: Bool, error: NSError?) -> Void) {
+    /// Uses REST API from Udacity to get the user's public information (i.e., his or her name)
+    /// and will store this in *Model.swift*.
+    ///
+    /// If successful the user data will be accessible from `Model.sharedInstance().userInformation`
+    /// - note: uses keys defined in struct *Constants.swift*. **Do not call this directly**
+    /// this method is called by `authenticateWithUdacity`
+    /// - parameters:
+    ///    - uniqueKey: the user's unique Key returned from login to Udacity.
+    ///    - completionHandlerForAuth: this is the completion handler passed from `authenticateWithUdacity`.
+    internal func getUserPublicData(uniqueKey: String, completionHandlerForAuth: (success: Bool, error: NSError?) -> Void) {
         
-        // 1 set the parameters
+        // 1. set the parameters
         // There are none
         
-        // 2/3 Build URL and configure the request
+        // 2./3. Build URL and configure the request
         let baseUrl = NSURL(string: Constants.UDACITY.userDataUrl)
         let url = baseUrl?.URLByAppendingPathComponent(uniqueKey)
         let request = NSURLRequest(URL: url!)
@@ -146,7 +182,7 @@ class API: NSObject {
             // Remove first character in response to get clean JSON data
             let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
             
-            // 5 Parse the data
+            // 5. Parse the data
             var parsedResult: AnyObject!
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
@@ -182,6 +218,7 @@ class API: NSObject {
             let stringDate: String = formatter.stringFromDate(NSDate())
             
             // Here we store the userInformation in our model
+            // Create a dictionary with the data
             let userInfo: [String:AnyObject] = [
                 Constants.PARSE.uniqueKey: uniqueKey,
                 Constants.PARSE.firstName: firstName,
@@ -211,6 +248,17 @@ class API: NSObject {
 
     // MARK: PARSE API
     
+    /// Uses the REST API from Parse using Udacity's API Key to get students' location data
+    /// and build an array of annotations to display on the map.
+    ///
+    /// If successful the user data will be accessible from `Model.sharedInstance().studentLocations`
+    /// - note: uses keys defined in struct *Constants.swift*.
+    /// - parameters:
+    ///    - completionHandlerForGetLocations: this is the completion handler called on completion.
+    /// - returns:
+    ///    - studentLocations: an array of StudentLocations
+    ///    - annotations: an array of MKPointAnnotations
+    ///    - error: a NSError which is `nil` if the method was successful
     func getLocationsData(completionHandlerForGetLocations: (studentLocations: [StudentLocation]?, annotations: [MKPointAnnotation]?, error: NSError?) -> Void) {
   
         // MARK: Get the student location informations from Parse API
@@ -306,6 +354,7 @@ class API: NSObject {
     
     // MARK: Shared Instance
     
+    /// This is a Singleton used to hold all the networking code
     class func sharedInstance() -> API {
         struct Singleton {
             static var sharedInstance = API()

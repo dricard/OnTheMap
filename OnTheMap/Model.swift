@@ -9,6 +9,13 @@
 import UIKit
 import Foundation
 
+/// This class holds the data shared by various other classes. Access them through 
+/// `Model.sharedInstance().propertyName`.
+/// - parameters:
+///   - userInformation: a StudentLocation struct containing the logged in user's information.
+///   Used when posting a new location to the Parse API.
+///   - studentLocations: an array of StudentLocation structs that contains the informations
+///   posted by students. Used to display information on the map or in the tableView.
 class Model: NSObject {
 
     var userInformation: StudentLocation? = nil

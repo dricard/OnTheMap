@@ -10,29 +10,33 @@ import UIKit
 
 class LoginViewController: UIViewController, UITextFieldDelegate {
 
+    /// MARK: properties
+    
     var userLastName: String = ""
     var userFirstName: String = ""
     var userImageUrl: String = ""
     
-    // MARK: OUTLETS
+    // MARK: outlets
     
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     
     
-    // MARK: LOADING AND SET-UP
+    // MARK: life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // setting the text fields attributes
         userEmail.defaultTextAttributes = myTextAttributes
         userPassword.defaultTextAttributes = myTextAttributes
+        // setting the text fields delegates
         userEmail.delegate = self
         userPassword.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         loginButton.enabled = true
         subscribeToKeyboardShowNotifications()
     }
@@ -43,24 +47,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     
-    // MARK: APPEARANCE AND ENABLING/DISABLING OF UI ELEMENTS
-    
-    let myTextAttributes : [ String : AnyObject ] = [
-        NSForegroundColorAttributeName: UIColor.whiteColor()
-    ]
-
-    // MARK: TEXTFIELD DELEGATE
-    
-    
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    
-    // MARK: ACTIONS FROM THE INTERFACE
+    // MARK: user actions (and related methods)
     
     @IBAction func loginPressed(sender: AnyObject) {
+        // first resign first responder if a text field was active
         resignIfFirstResponder(userEmail)
         resignIfFirstResponder(userPassword)
         
@@ -80,7 +70,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                             self.completeLogin()
                         } else {
                             print("Error returned by authenticateWithUdacity: \(error)")
-                            // TODO display error to user
+                            // TODO: display error to user
                         }
                     }
                 }
@@ -103,7 +93,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // MARK: UTILITIES FUNCTIONS
+    // MARK: appearance and enabling/disabling of UI elements
+    
+    let myTextAttributes : [ String : AnyObject ] = [
+        NSForegroundColorAttributeName: UIColor.whiteColor()
+    ]
+    
+    // MARK: textfield delegate
+    
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
+    
+    // MARK: utilities functions
     
     func resignIfFirstResponder(textField: UITextField) {
         if textField.isFirstResponder() {
@@ -132,7 +137,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
-    // MARK: KEYBOARD FUNCTIONS
+    // MARK: keyboard functions
 
     func keyboardWillShow(notification: NSNotification) {
         //get screen height

@@ -8,6 +8,21 @@
 
 import UIKit
 
+/// Holds the information about a single student location. Takes a dictionary for initialization
+/// build with keys defined in *Constants.swift*: `Constants.PARSE.keyName`.
+/// - parameters:
+///   - uniqueKey: String that is returned by the Udacity API upon successful login
+///   - firstName: String that contains the student's first name
+///   - lastName: String that contains the student's last name
+///   - mapString: the location string that the student used to describe his/her location
+///   - mediaUrl: String that contains the URL that the student shared
+///   - latitude: Double that contains the latitude returned by forward geocoding the
+///   `mapString` submitted by the student
+///   - longitude: Double that contains the longitude returned by forward geocoding the
+///   `mapString` submitted by the student
+///   - createdAt: String - used by Parse when creating (posting) a new location.
+///   - updatedAt: String - used by Parse when updating (posting) a new location.
+///   - imageUrl: String - used to hold the user's image URL for futur development.
 struct StudentLocation {
     
     var uniqueKey: String
