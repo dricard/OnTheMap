@@ -9,6 +9,8 @@
 import UIKit
 import MapKit
 
+/// This displays a map with pins corresponding to student locations
+/// as returned by a Parse API.
 class MapViewController: UIViewController, MKMapViewDelegate {
 
     var studentLocations = [StudentLocation]()
@@ -19,7 +21,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     
-    // MARK: VIEW CONTROLLER
+    // MARK: life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -67,7 +69,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     
-    // MARK: USER ACTIONS
+    // MARK: user actions
     
     @IBAction func userTappedRefresh(sender: AnyObject) {
         
@@ -103,8 +105,5 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
         return pinView
     }
-    
-    
-    
     
 }

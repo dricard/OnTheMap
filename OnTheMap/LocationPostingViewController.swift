@@ -12,15 +12,14 @@ import MapKit
 
 class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate {
 
-
-    // MARK: VARIABLES
+    // MARK: properties
 
     var coordinates: CLLocationCoordinate2D?
 
     let labelURL = UILabel()
     let labelPlease = UILabel()
     var wide = false
-    let topLabelWidth = CGFloat(150.0)
+    let topLabelWidth = CGFloat(125.0)
     let labelURLWidth = CGFloat(43.0)
     
     // MARK: Outlets
@@ -36,7 +35,6 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         super.viewDidLoad()
         
         // add the text labels
-        labelPlease.textAlignment = .Right
         labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
         labelPlease.text = "Please enter an"
         self.view.addSubview(labelPlease)
@@ -53,13 +51,20 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     
     override func viewWillAppear(animated: Bool) {
         let screenSize: CGSize = view.frame.size
-        evaluateIfWide(screenSize)
-        setTextLabelsForUI(screenSize)
+        let wide = evaluateIfWide(screenSize)
+        setTextLabelsForUI(screenSize, wide: wide)
         let latitudeDelta = CLLocationDegrees(1.0)
         let longitudeDelta = CLLocationDegrees(1.0)
         let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
         let region = MKCoordinateRegionMake(coordinates!, span)
         mapView.setRegion(region, animated: true)
+    }
+
+    
+    override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        let wide = evaluateIfWide(size)
+        setTextLabelsForUI(size, wide: wide)
     }
 
     // MARK: Actions from user
@@ -98,16 +103,18 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
 
     // MARK: Utilities functions
     
-    func evaluateIfWide(size: CGSize) {
-        wide = size.width > topLabelWidth + labelURLWidth
+    func evaluateIfWide(size: CGSize) -> Bool {
+        return size.width > topLabelWidth + labelURLWidth
     }
     
-    func setTextLabelsForUI(size: CGSize) {
+    func setTextLabelsForUI(size: CGSize, wide: Bool) {
         
         // Setting the labels positions depending on screen width
         
         let screenHalfWidth = size.width / 2
-        
+
+        labelPlease.textAlignment = wide ? .Right : .Center
+
         if wide {
             // Landscape mode
             let totalWidth = topLabelWidth + labelURLWidth

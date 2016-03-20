@@ -12,12 +12,11 @@ import CoreLocation
 class LocationViewController: UIViewController, UITextFieldDelegate {
 
 
-    // MARK: VARIABLES
+    // MARK: variables
     
     let labelInformation = UILabel()
     let labelLocation = UILabel()
     let labelPlease = UILabel()
-    var wide = false
     let topLabelWidth = CGFloat(150.0)
     let middleLabelWidth = CGFloat(75.0)
     let bottomLabelWidth = CGFloat(100.0)
@@ -29,49 +28,53 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var findLocationButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
-    // MARK: Text Properties
-    
+    // MARK: life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
- 
-        // add the text labels
-        labelPlease.textAlignment = .Right
+
+        // add the text labels and set properties that will not change depending
+        // on screen width (orientation). Other properties are set in
+        // setTextLabelsForUI.
         labelPlease.font = UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
         labelPlease.text = "Please enter your"
         self.view.addSubview(labelPlease)
+        // the middle label is always centered so we set that here
         labelLocation.textAlignment = .Center
         labelLocation.font = UIFont.boldSystemFontOfSize(18)
         labelLocation.text = "location"
         self.view.addSubview(labelLocation)
-        labelInformation.textAlignment = .Left
         labelInformation.font =  UIFont.systemFontOfSize(18, weight: UIFontWeightThin)
         labelInformation.text = "information"
         self.view.addSubview(labelInformation)
 
+        // configure the activity indicator we'll use while geocoding
         configureActivityIndicatorView()
         
     }
     
     override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         let screenSize: CGSize = view.frame.size
-        evaluateIfWide(screenSize)
-        setTextLabelsForUI(screenSize)
+        let wide = evaluateIfWide(screenSize)
+        setTextLabelsForUI(screenSize, wide: wide)
         
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
-
-        evaluateIfWide(size)
-        setTextLabelsForUI(size)
+        super.viewWillTransitionToSize(size, withTransitionCoordinator: coordinator)
+        let wide = evaluateIfWide(size)
+        setTextLabelsForUI(size, wide: wide)
     }
     
     
     // MARK: User Actions
     
-    
+    /// Tries to forward geocode a location from a user supplied string. If successful, the
+    /// completion handler calls `didReceiveGeocodeAddress` with the coordinates found.
     @IBAction func userPressedFindLocation(sender: AnyObject) {
         
+        // GUARD: check for an empty location string
         guard let locationString = locationTextField.text else {
             presentAlertMessage("No location information", message: "Please enter a location")
             return
@@ -79,34 +82,40 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         
         let geocoder = CLGeocoder()
         
+        // Starts an activity indicator while we send the geocode request
         activityIndicator.startAnimating()
 
         geocoder.geocodeAddressString(locationString) { (data, error) -> Void in
             
+            // GUARD: checks to see if there is an error
             guard error == nil else {
                 print("Geocoder returned an error: \(error)")
                 return
             }
 
+            // GUARD: checks to see if there is data returned
             guard let data = data else {
                 print("Data returned from Geocoder is nil")
                 return
             }
             
+            // GUARD: unwraps first location returned
             guard let location = data[0].location else {
                print("Invalid or null location data in returned placemark")
-                return
+               return
             }
             
+            // Create coordinates from lat/long returned
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             let coordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
             
+            // send coordinates to didReceiveGeocodeAddress to segue to URL input
             self.didReceiveGeocodeAddress(coordinates)
         }
     }
     
-    
+    /// User cancelled the attempt to geocode the string.
     @IBAction func userPressedCancel(sender: AnyObject) {
 
         // TODO: need to use cancelGeocode?
@@ -118,8 +127,11 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
     // MARK: GOECODE Utilities
 
+    /// This is called once a successful forward geocode on the supplied string is
+    /// returned. This segue to the `LocationPostingViewController` to ask for an
+    /// URL while passing the coordinates to be displayed.
     func didReceiveGeocodeAddress(coordinates: CLLocationCoordinate2D) {
-        
+        // stop the activity indicator
         activityIndicator.stopAnimating()
         performUIUpdatesOnMain {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationPostingView") as! LocationPostingViewController
@@ -143,20 +155,35 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     // MARK: Utilities functions
     
-    func evaluateIfWide(size: CGSize) {
-        wide = size.width > topLabelWidth + middleLabelWidth + bottomLabelWidth
+    /// This checks if the labels prompting the user can be displayed on a single line
+    /// or not.
+    /// - returns:
+    ///   - true: if all the text labels can fit on a single line
+    ///   - false: if we should instead put them on above the other (on smaller screen sizes).
+    func evaluateIfWide(size: CGSize) -> Bool {
+        return size.width > topLabelWidth + middleLabelWidth + bottomLabelWidth
     }
     
-    func setTextLabelsForUI(size: CGSize) {
+    /// This displays text labels to prompt the user to enter a location. We separate the 
+    /// prompt into three parts to be able to set the middle one to bold and also so we can
+    /// arrange the labels vertically for smaller screen sizes.
+    func setTextLabelsForUI(size: CGSize, wide: Bool) {
  
-
         // Setting the labels positions depending on screen width
-        
+        // get the middle of the screen
         let screenHalfWidth = size.width / 2
-        
+ 
+        // if wide then center label is centered and those on each side are
+        // right (for the leading) and left (for the following) aligned
+        // otherwise they are one above the other and so are all centered
+        labelPlease.textAlignment = wide ? .Right : .Center
+        labelInformation.textAlignment = wide ? .Left : .Center
+
         if wide {
             // Landscape mode
+            // get the total width of all labels side by side
             let totalWidth = topLabelWidth + middleLabelWidth + bottomLabelWidth
+            // topOrigin if the origin of the first label (top when portrait mode)
             let topOrigin = screenHalfWidth - totalWidth / 2.0
             labelLocation.frame = CGRectMake(topOrigin + topLabelWidth, 65, middleLabelWidth, 25)
             labelPlease.frame = CGRectMake(topOrigin, 65, topLabelWidth, 25)
@@ -170,6 +197,8 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
+    /// an 'OK' button.
     func presentAlertMessage(title: String, message: String) {
         let controller = UIAlertController()
         controller.title = title
@@ -181,6 +210,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         
     }
 
+    /// Configures the activity indicator that is used when the geocode request is sent
     func configureActivityIndicatorView() {
         activityIndicator.activityIndicatorViewStyle = .WhiteLarge
  
