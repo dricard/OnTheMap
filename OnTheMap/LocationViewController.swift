@@ -55,6 +55,9 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        // we don't put screenSize in the evaluateIfWide method because
+        // it may be called by willTransitionToSize which will pass it
+        // the size that will be active after the transition.
         let screenSize: CGSize = view.frame.size
         let wide = evaluateIfWide(screenSize)
         setTextLabelsForUI(screenSize, wide: wide)
