@@ -351,6 +351,12 @@ class API: NSObject {
 
     }
     
+    /// This post a student location to the Parse API with the user provided data and the data collected
+    /// from the authentication from Udacity.
+    func postStudentLocation(studentLocation: StudentLocation, completionHandlerForPostLocation: (studentLocations: [StudentLocation]?, annotations: [MKPointAnnotation]?, error: NSError?) -> Void) {
+        
+        
+    }
     
     // MARK: Shared Instance
     

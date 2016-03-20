@@ -9,6 +9,12 @@
 import UIKit
 import CoreLocation
 
+
+/// This presents the user with a textField where s/he should enter a
+/// location string for the forward geocode. No check is made on the string
+/// itself except to check if it's empty.
+///
+/// On a successful geocode the user is presented with the `LocationPosting` View.
 class LocationViewController: UIViewController, UITextFieldDelegate {
 
 
@@ -17,9 +23,9 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     let labelInformation = UILabel()
     let labelLocation = UILabel()
     let labelPlease = UILabel()
-    let topLabelWidth = CGFloat(150.0)
-    let middleLabelWidth = CGFloat(75.0)
-    let bottomLabelWidth = CGFloat(100.0)
+    let labelPleaseWidth = CGFloat(150.0)
+    let labelLocationWidth = CGFloat(75.0)
+    let labelInformationWidth = CGFloat(100.0)
 
     
     // MARK: Outlets
@@ -164,7 +170,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     ///   - true: if all the text labels can fit on a single line
     ///   - false: if we should instead put them on above the other (on smaller screen sizes).
     func evaluateIfWide(size: CGSize) -> Bool {
-        return size.width > topLabelWidth + middleLabelWidth + bottomLabelWidth
+        return size.width > labelPleaseWidth + labelLocationWidth + labelInformationWidth
     }
     
     /// This displays text labels to prompt the user to enter a location. We separate the 
@@ -185,18 +191,18 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         if wide {
             // Landscape mode
             // get the total width of all labels side by side
-            let totalWidth = topLabelWidth + middleLabelWidth + bottomLabelWidth
+            let totalWidth = labelPleaseWidth + labelLocationWidth + labelInformationWidth
             // topOrigin if the origin of the first label (top when portrait mode)
             let topOrigin = screenHalfWidth - totalWidth / 2.0
-            labelLocation.frame = CGRectMake(topOrigin + topLabelWidth, 65, middleLabelWidth, 25)
-            labelPlease.frame = CGRectMake(topOrigin, 65, topLabelWidth, 25)
-            labelInformation.frame = CGRectMake(topOrigin + topLabelWidth + middleLabelWidth, 65, bottomLabelWidth, 25)
+            labelLocation.frame = CGRectMake(topOrigin + labelPleaseWidth, 65, labelLocationWidth, 25)
+            labelPlease.frame = CGRectMake(topOrigin, 65, labelPleaseWidth, 25)
+            labelInformation.frame = CGRectMake(topOrigin + labelPleaseWidth + labelLocationWidth, 65, labelInformationWidth, 25)
            
         } else {
             // portrait mode (on smaller phones)
-            labelPlease.frame = CGRectMake(screenHalfWidth - topLabelWidth / 2.0, 43, topLabelWidth, 25)
-            labelLocation.frame = CGRectMake(screenHalfWidth - middleLabelWidth / 2.0, 65, middleLabelWidth, 25)
-            labelInformation.frame = CGRectMake(screenHalfWidth - bottomLabelWidth / 2.0, 87, bottomLabelWidth, 25)
+            labelPlease.frame = CGRectMake(screenHalfWidth - labelPleaseWidth / 2.0, 43, labelPleaseWidth, 25)
+            labelLocation.frame = CGRectMake(screenHalfWidth - labelLocationWidth / 2.0, 65, labelLocationWidth, 25)
+            labelInformation.frame = CGRectMake(screenHalfWidth - labelInformationWidth / 2.0, 87, labelInformationWidth, 25)
         }
     }
     

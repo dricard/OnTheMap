@@ -75,6 +75,9 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     // MARK: Actions from user
     
     @IBAction func userPressedSubmit(sender: AnyObject) {
+        
+        
+        
     }
     
     @IBAction func userPressedCancel(sender: AnyObject) {
