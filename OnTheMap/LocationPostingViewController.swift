@@ -15,6 +15,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     // MARK: properties
 
     var coordinates: CLLocationCoordinate2D?
+    var mapString: String?
 
     let labelURL = UILabel()
     let labelPlease = UILabel()
@@ -76,7 +77,75 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     
     @IBAction func userPressedSubmit(sender: AnyObject) {
         
+        // GUARD: check to see if the textField is empty
+        guard let mediaUrl = urlTextField.text where !mediaUrl.isEmpty else {
+            presentAlertMessage("Empty URL", message: "Please enter an URL to share")
+            return
+        }
         
+        guard let mapString = mapString else {
+            print("Empty mapString in LocationPostingViewController")
+            return
+        }
+        
+        guard let latitude = coordinates?.latitude, longitude = coordinates?.longitude  else {
+            print("Cannot unwrap coordinates options in LocationPostingViewController")
+            return
+        }
+        
+        // update user information with new data from user
+        Model.sharedInstance().userInformation?.mapString = mapString
+        Model.sharedInstance().userInformation?.mediaUrl = mediaUrl
+        Model.sharedInstance().userInformation?.latitude = latitude
+        Model.sharedInstance().userInformation?.longitude = longitude
+        
+        // unwrap userInformation before passing it to postStudentLocation
+        guard let studentLocation = Model.sharedInstance().userInformation else {
+            print("Could not unwrap Model.sharedInstance().userInformation in LocationPostingViewController")
+            return
+        }
+        
+        // check to see if there is an objectId, which means this will be an update and not
+        // a new posting. So newPosting is true if the objectId is empty.
+        let newPosting = Model.sharedInstance().userInformation?.objectId == ""
+        API.sharedInstance().postStudentLocation(newPosting, studentLocation: studentLocation) { (objectId, createdAt, error) -> Void in
+            performUIUpdatesOnMain {
+                if error == nil {
+                    self.completePosting(newPosting, objectId: objectId, createdAt: createdAt)
+                } else {
+                    print("Error returned by postStudentLocation: \(error)")
+                    self.presentAlertMessage("Error", message: "There was an error sending your information, please try again.")
+                }
+            }
+
+        }
+        
+        
+    }
+    
+    func completePosting(isNewPosting: Bool, objectId: String?, createdAt: String?) {
+
+        // Here the parameter 'createdAt' contains either the createdAt date if
+        // isNewPosting is true, or updatedAt date if isNewPosting is false.
+        
+        guard let createdAt = createdAt else {
+            print("Could not unwrap createdAt in LocationPostingViewController")
+            return
+        }
+        if isNewPosting {
+            if let objectId = objectId {
+                Model.sharedInstance().userInformation?.objectId = objectId
+            }
+            Model.sharedInstance().userInformation?.createdAt = createdAt
+        } else {
+            Model.sharedInstance().userInformation?.updatedAt = createdAt
+        }
+        
+        // now return to the TabBarController
+        if let navigationController = self.navigationController {
+            navigationController.popToRootViewControllerAnimated(true)
+        }
+
         
     }
     
@@ -135,6 +204,19 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
             labelPlease.frame = CGRectMake(screenHalfWidth - topLabelWidth / 2.0, 43, topLabelWidth, 25)
             labelURL.frame = CGRectMake(screenHalfWidth - labelURLWidth / 2.0, 65, labelURLWidth, 25)
         }
+    }
+
+    /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
+    /// an 'OK' button.
+    func presentAlertMessage(title: String, message: String) {
+        let controller = UIAlertController()
+        controller.title = title
+        controller.message = message
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
+        controller.addAction(okAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
     }
 
 }

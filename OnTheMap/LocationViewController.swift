@@ -145,6 +145,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         performUIUpdatesOnMain {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationPostingView") as! LocationPostingViewController
             controller.coordinates = coordinates
+            controller.mapString = self.locationTextField.text!
             self.presentViewController(controller, animated: true, completion: nil)
         }
     }

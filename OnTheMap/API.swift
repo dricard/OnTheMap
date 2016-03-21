@@ -229,6 +229,7 @@ class API: NSObject {
                 Constants.PARSE.longitude: 0.0,
                 Constants.PARSE.createdAt: stringDate,
                 Constants.PARSE.updatedAt: stringDate,
+                Constants.PARSE.objectId: "",
                 "imageUrl": userImage
             ]
             
@@ -261,12 +262,12 @@ class API: NSObject {
     ///    - error: a NSError which is `nil` if the method was successful
     func getLocationsData(completionHandlerForGetLocations: (studentLocations: [StudentLocation]?, annotations: [MKPointAnnotation]?, error: NSError?) -> Void) {
   
-        // MARK: Get the student location informations from Parse API
+        // Get the student location informations from Parse API
         
-        // 1 set the parameters
+        // 1. set the parameters
         // There are none
         
-        // 2/3 Build URL and configure the request
+        // 2./3. Build URL and configure the request
         let url = NSURL(string: Constants.PARSE.baseUrl)
         
         let request = NSMutableURLRequest(URL: url!)
@@ -276,7 +277,7 @@ class API: NSObject {
         // 4. Make the request
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            // MARK: Utility function
+            // Utility function
             func sendError(error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
@@ -302,7 +303,7 @@ class API: NSObject {
                 return
             }
             
-            // 5 Parse the data
+            // 5. Parse the data
             var parsedResult: AnyObject!
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
@@ -353,8 +354,119 @@ class API: NSObject {
     
     /// This post a student location to the Parse API with the user provided data and the data collected
     /// from the authentication from Udacity.
-    func postStudentLocation(studentLocation: StudentLocation, completionHandlerForPostLocation: (studentLocations: [StudentLocation]?, annotations: [MKPointAnnotation]?, error: NSError?) -> Void) {
+    ///
+    /// Takes a non-optional student location, so unwrap before passing the parameter.
+    /// Normally this would be unwrapping the `Model.sharedLocation().userInformation`
+    /// variable which is a StudentLocation?
+    ///
+    /// If `isNewPosting` is true then this the first time the user posts a location, otherwise we update
+    /// the data with the new information.
+    func postStudentLocation(isNewPosting: Bool, studentLocation: StudentLocation, completionHandlerForPostLocation: (objectId: String?, createdAt: String?, error: NSError?) -> Void) {
         
+        // 1. set the parameters
+        // there a re none
+        
+        // 2./3. Build URL and configure the request
+        var url = NSURL(string: Constants.PARSE.baseUrl)
+
+        if !isNewPosting {
+            url = url!.URLByAppendingPathComponent(studentLocation.objectId)
+        }
+
+        let request = NSMutableURLRequest(URL: url!)
+        if isNewPosting {
+            request.HTTPMethod = "POST"
+        } else {
+            request.HTTPMethod = "PUT"
+        }
+        request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
+        request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // JSON Body
+        
+        let bodyObject = [
+            "uniqueKey": studentLocation.uniqueKey,
+            "firstName": studentLocation.firstName,
+            "lastName": studentLocation.lastName,
+            "mediaURL": studentLocation.mediaUrl,
+            "longitude": studentLocation.longitude,
+            "latitude": studentLocation.latitude,
+            "mapString": studentLocation.mapString
+        ]
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(bodyObject, options: [])
+
+        // 4. Make the request
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            // Utility function
+            func sendError(error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey: error]
+                completionHandlerForPostLocation(objectId: nil, createdAt: nil, error: NSError(domain: "postStudentLocation", code: 1, userInfo: userInfo))
+            }
+            
+            // GUARD: was there an error?
+            guard (error == nil) else {
+                sendError("An error was returned from the Parse API: \(error)")
+                return
+            }
+            
+            // GUARD: did we get a successful 2XX response?
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
+                sendError("Your request to Parse returned a status code outside the 2XX range: \(theStatusCode)")
+                return
+            }
+            
+            // GUARD: was there data returned?
+            guard let data = data else {
+                sendError("No data was returned from the Parse API request!")
+                return
+            }
+            
+            // 5. parse the result
+            var parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
+            } catch {
+                sendError("Could not parse the data returned by Parse in postStudentLocation: \(data)")
+            }
+            
+            // 6. Use the data
+ 
+            var key = ""
+            if isNewPosting {
+                key = Constants.PARSE.createdAt
+            } else {
+                key = Constants.PARSE.updatedAt
+            }
+            
+            // although it is named 'createdAt', it actually contains either that or updatedAt depending
+            // on isNewPosting.
+            guard let createdAt = parsedResult[key] as? String else {
+                sendError("Could not parse (createdAt or updatedAt) from data returned from Parse: \(parsedResult)")
+                return
+            }
+
+            if isNewPosting {
+                // If this is a new posting the API returns the object's id. Otherwise we
+                // already have it.
+                guard let objectId = parsedResult[Constants.PARSE.objectId] as? String else {
+                    sendError("Could not parse objectId from data returned from Parse: \(parsedResult)")
+                    return
+                }
+                // now we have everything
+                completionHandlerForPostLocation(objectId: objectId, createdAt: createdAt, error: nil)
+                
+            } else {
+                completionHandlerForPostLocation(objectId: studentLocation.objectId, createdAt: createdAt, error: nil)
+            }
+            
+        }
+        
+        // 7. Start the request
+        task.resume()
         
     }
     

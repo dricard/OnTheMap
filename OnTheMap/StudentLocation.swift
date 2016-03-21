@@ -20,8 +20,9 @@ import UIKit
 ///   `mapString` submitted by the student
 ///   - longitude: Double that contains the longitude returned by forward geocoding the
 ///   `mapString` submitted by the student
-///   - createdAt: String - used by Parse when creating (posting) a new location.
-///   - updatedAt: String - used by Parse when updating (posting) a new location.
+///   - createdAt: String - returned by Parse API when creating (posting) a new location.
+///   - updatedAt: String - returned by Parse API when updating (posting) a new location.
+///   - objectId: String - returned by Parse API when creating (posting) a new location.
 ///   - imageUrl: String - used to hold the user's image URL for futur development.
 struct StudentLocation {
     
@@ -34,20 +35,22 @@ struct StudentLocation {
     var longitude: Double
     var createdAt: String
     var updatedAt: String
+    var objectId: String
     var imageUrl: String
 
 
     init(dictionary: [String:AnyObject]) {
-         uniqueKey = dictionary[Constants.PARSE.uniqueKey] as! String
-         firstName = dictionary[Constants.PARSE.firstName] as! String
-         lastName = dictionary[Constants.PARSE.lastName] as! String
-         mapString = dictionary[Constants.PARSE.mapString] as! String
-         mediaUrl = dictionary[Constants.PARSE.mediaURL] as! String
-         latitude = dictionary[Constants.PARSE.latitude] as! Double
-         longitude = dictionary[Constants.PARSE.longitude] as! Double
-         createdAt = dictionary[Constants.PARSE.createdAt] as! String
-         updatedAt = dictionary[Constants.PARSE.updatedAt] as! String
-         imageUrl = ""
+        uniqueKey = dictionary[Constants.PARSE.uniqueKey] as! String
+        firstName = dictionary[Constants.PARSE.firstName] as! String
+        lastName = dictionary[Constants.PARSE.lastName] as! String
+        mapString = dictionary[Constants.PARSE.mapString] as! String
+        mediaUrl = dictionary[Constants.PARSE.mediaURL] as! String
+        latitude = dictionary[Constants.PARSE.latitude] as! Double
+        longitude = dictionary[Constants.PARSE.longitude] as! Double
+        createdAt = dictionary[Constants.PARSE.createdAt] as! String
+        updatedAt = dictionary[Constants.PARSE.updatedAt] as! String
+        objectId = dictionary[Constants.PARSE.objectId] as! String
+        imageUrl = ""
 
     }
 }
