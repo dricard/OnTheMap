@@ -102,7 +102,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     /// if successful as well as an array of map annotations.
     func completeLogin() {
         performUIUpdatesOnMain {
-            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationTabBarController") as! UITabBarController
+            let controller = self.storyboard!.instantiateViewControllerWithIdentifier("ManagerViewController") as! UINavigationController
             self.presentViewController(controller, animated: true, completion: nil)
         }
 

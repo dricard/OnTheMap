@@ -25,9 +25,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // setting the Navigation bar
+        // setting the title
         title = "On the map"
-
+        // create an array for the buttons on the right
+        var navBarItems = [UIBarButtonItem]()
+        navBarItems.append(UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(MapViewController.refreshData)))
+        navBarItems.append(UIBarButtonItem(image: UIImage(named: "MapNavBarItem"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
+        // setting the left side button
+        parentViewController!.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: #selector(MapViewController.logout))
+        // adding the right side buttons
+        parentViewController!.navigationItem.rightBarButtonItems = navBarItems
+        
      }
     
     override func viewWillAppear(animated: Bool) {
@@ -85,7 +94,29 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBAction func userTappedLogout(sender: AnyObject) {
     }
     
-    
+    @IBAction func unwindToMap(unwindSegue: UIStoryboardSegue) {
+        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
+
+            if Model.sharedInstance().userInformation?.objectId != "" {
+
+                // first, fetch new data from Parse API
+                refreshData()
+                // then change the span to center on the newly posted area
+                let latitudeDelta = CLLocationDegrees(1.0)
+                let longitudeDelta = CLLocationDegrees(1.0)
+                let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
+                let coordinate = CLLocationCoordinate2D(latitude: (Model.sharedInstance().userInformation?.latitude)!, longitude: (Model.sharedInstance().userInformation?.longitude)!)
+                let region = MKCoordinateRegionMake(coordinate, span)
+                mapView.setRegion(region, animated: true)
+               
+            }
+            
+        }
+        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
+            print("Coming from location")
+        }
+    }
+
     // MARK: MapView Delegates
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -104,6 +135,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
         return pinView
+    }
+    
+    // MARK: utilities
+    
+    func logout() {
+        print("loging out")
+    }
+    
+    func enterLocation() {
+        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
+        self.presentViewController(controller, animated: true, completion: nil)
     }
     
 }

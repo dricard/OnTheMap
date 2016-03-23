@@ -12,7 +12,7 @@ import MapKit
 
 class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMapViewDelegate {
 
-    // MARK: properties
+    // MARK: Properties
 
     var coordinates: CLLocationCoordinate2D?
     var mapString: String?
@@ -27,6 +27,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     
     @IBOutlet weak var urlTextField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
     // MARK: Life Cycle
@@ -44,9 +45,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         labelURL.text = "URL"
         self.view.addSubview(labelURL)
         
-        print("Posting view loaded with coordinates: \(coordinates)")
-        
-//        configureActivityIndicatorView()
+        configureActivityIndicatorView()
 
     }
     
@@ -72,7 +71,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         let wide = evaluateIfWide(size)
         setTextLabelsForUI(size, wide: wide)
     }
-
+    
     // MARK: Actions from user
     
     @IBAction func userPressedSubmit(sender: AnyObject) {
@@ -105,6 +104,9 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
             return
         }
         
+        // Starts an activity indicator while we send the geocode request
+        activityIndicator.startAnimating()
+
         // check to see if there is an objectId, which means this will be an update and not
         // a new posting. So newPosting is true if the objectId is empty.
         let newPosting = Model.sharedInstance().userInformation?.objectId == ""
@@ -140,12 +142,11 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         } else {
             Model.sharedInstance().userInformation?.updatedAt = createdAt
         }
-        
-        // now return to the TabBarController
-        if let navigationController = self.navigationController {
-            navigationController.popToRootViewControllerAnimated(true)
-        }
+        // Stop the activity indicator
+        activityIndicator.stopAnimating()
 
+        // Now that we're done, segue back to MapViewController
+        performSegueWithIdentifier("unwindBackToMapVC", sender: "locationPostingVC")
         
     }
     
@@ -216,6 +217,16 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
         controller.addAction(okAction)
         self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
+
+    /// Configures the activity indicator that is used when the geocode request is sent
+    func configureActivityIndicatorView() {
+        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+        
+        activityIndicator.hidesWhenStopped = true
+        
+        activityIndicator.color = UIColor.blueColor()
         
     }
 
