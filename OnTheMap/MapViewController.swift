@@ -25,6 +25,9 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        mapView.delegate = self
+        
         // setting the Navigation bar
         // setting the title
         title = "On the map"
@@ -123,8 +126,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     // MARK: MapView Delegates
     
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    //Opens the mediaURL in Safari when the annotation info box is tapped.
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
         
+        UIApplication.sharedApplication().openURL(NSURL(string: view.annotation!.subtitle!!)!)
+    }
+
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+                
         let reuseId = "pin"
         
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
