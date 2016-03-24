@@ -41,6 +41,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         
+        // TODO: change the post icon to either the '+' version if nothing was yet posted
+        // or 'u' version if posting will update an already posted location for that user
+        // (test if objectID == "", or perhaps add a property for it)
+        
         refreshData()
         
     }
