@@ -31,6 +31,22 @@ class OnTheMapUITests: XCTestCase {
     func testExample() {
         // Use recording to get started writing UI tests.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
+        
+        let app = XCUIApplication()
+        app.textFields["Email"].tap()
+        app.textFields["Email"]
+        app.secureTextFields["Password"].tap()
+        app.secureTextFields["Password"]
+        app.buttons["Login"].tap()
+        app.navigationBars["UITabBar"].buttons["MapNavBarItem"].tap()
+        app.textFields["MountainView, CA"].tap()
+        app.textFields["MountainView, CA"]
+        app.buttons["Find Location"].tap()
+        app.textFields["http://udacity.com"].tap()
+        app.textFields["http://udacity.com"]
+        app.buttons["Submit"].tap()
+        
+        
     }
     
 }

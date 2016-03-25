@@ -13,6 +13,8 @@ import MapKit
 /// as returned by a Parse API.
 class MapViewController: UIViewController, MKMapViewDelegate {
 
+    // MARK: Properties
+    
     var studentLocations = [StudentLocation]()
     var annotations = [MKPointAnnotation]()
     
