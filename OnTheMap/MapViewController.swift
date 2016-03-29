@@ -37,12 +37,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        // TODO: change the post icon to either the '+' version if nothing was yet posted
-        // or 'u' version if posting will update an already posted location for that user
-        // (test if objectID == "", or perhaps add a property for it)
-        
         refreshData()
-        
     }
 
     // MARK: Data functions
@@ -53,7 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             guard (error == nil) else {
                 print("Error returned by getLocationData in MapViewController: \(error)")
-                // TODO: alert user
+                self.presentAlertMessage("Communication error", message: "Unable to connect to server, please check your internet connection")
                 return
             }
             
@@ -155,4 +150,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.presentViewController(controller, animated: true, completion: nil)
     }
     
+    /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
+    /// an 'OK' button.
+    func presentAlertMessage(title: String, message: String) {
+        let controller = UIAlertController()
+        controller.title = title
+        controller.message = message
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
+        controller.addAction(okAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
+    
+
 }

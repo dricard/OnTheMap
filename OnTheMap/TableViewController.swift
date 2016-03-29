@@ -18,7 +18,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBOutlet var locationTableView: UITableView!
     
-    // Life Cycle
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,7 +46,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             
             guard (error == nil) else {
                 print("Error returned by getLocationData in MapViewController: \(error)")
-                // TODO: alert user
+                self.presentAlertMessage("Communication error", message: "Unable to connect to server, please check your internet connection")
                 return
             }
             
@@ -92,6 +92,19 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
             print("Coming from location")
         }
+    }
+
+    /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
+    /// an 'OK' button.
+    func presentAlertMessage(title: String, message: String) {
+        let controller = UIAlertController()
+        controller.title = title
+        controller.message = message
+        
+        let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
+        controller.addAction(okAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
     }
 
     // MARK: utilities

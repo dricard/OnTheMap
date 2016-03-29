@@ -109,8 +109,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     @IBAction func signUpPressed(sender: AnyObject) {
-        
-        // TODO: Load web page to signup to Udacity
+        let signupURL = NSURL(string: "https://www.udacity.com/account/auth#!/signup")
+        if let signupURL = signupURL {
+            UIApplication.sharedApplication().openURL(signupURL)
+        } else {
+            print("unable to unwrap NSURL for Udacity signup url")
+        }
         
     }
     
