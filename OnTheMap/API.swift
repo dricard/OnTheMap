@@ -113,7 +113,6 @@ class API: NSObject {
             // GUARD: is the user registered?
             guard let isRegistered = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.registered] as? Bool else {
                 sendError("Account is unregistered")
-                // TODO: display alert to user
                 return
             }
             
@@ -195,21 +194,18 @@ class API: NSObject {
             // GUARD: get the user last name
             guard let lastName = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.lastName] as? String else {
                 sendError("Could not parse user last name")
-                // TODO: display alert to user
                 return
             }
             
             // GUARD: get the user first name
             guard let firstName = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.firstName] as? String else {
                 sendError("Could not parse user first name")
-                // TODO: display alert to user
                 return
             }
             
             // GUARD: get the user image URL
             guard let userImage = parsedResult[Constants.UDACITY.user]!![Constants.UDACITY.imageUrl] as? String else {
                 sendError("Could not parse user image URL")
-                // TODO: display alert to user
                 return
             }
             
@@ -245,6 +241,90 @@ class API: NSObject {
         // 7. Start the request
         task.resume()
         
+    }
+
+    /// Uses REST API from Udacity to logout. It will then call `getUserPublicData`
+    /// which will store the user's informations in *Model.swift*.
+    /// - note: uses keys defined in struct *Constants.swift*. **Expects non-optional Strings** so
+    /// unwrap before calling this method.
+    /// - parameters:
+    ///    - userEmail: the user's email address used to login to Udacity.
+    ///    - userPassword: the user's password to login to Udacity.
+    ///    - completionHandlerForAuth: this will be passed to `getUserPublicData`
+    /// - returns:
+    ///    - success is `true` and error `nil` if login was successful and no error was returned from the API
+    ///    - success is `false` and an `NSError` if the login attempt failed
+    func logoutFromUdacity(completionHandlerForLogout: (success: Bool, error: NSError?) -> Void) {
+        
+        // 1. set up the parameters
+        // there are none
+        
+        // 2./3. Build URL and configure the request
+        let url = NSURL(string: Constants.UDACITY.baseUrl)
+        let request = NSMutableURLRequest(URL: url!)
+        request.HTTPMethod = "DELETE"
+
+        // 4. Make the request
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            // MARK: Utility function
+            func sendError(error: String) {
+                print(error)
+                // Build an informative NSError to return
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForLogout(success: false, error: NSError(domain: "logoutFromUdacity", code: 1, userInfo: userInfo))
+            }
+            
+            // GUARD: was there an error?
+            guard (error == nil) else {
+                sendError("There was an error with the logout request to Udacity API: \(error)")
+                return
+            }
+            
+            // GUARD: did we get a successful 2XX response?
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
+                sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)")
+                return
+            }
+            
+            // GUARD: was there data returned?
+            guard let data = data else {
+                sendError("No data was returned by the request!")
+                return
+            }
+            
+            // Remove first character in response to get clean JSON data - specific to Udacity's API
+            let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+            
+            // 5. Parse the data
+            var parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
+            } catch {
+                sendError("Could not parse the data returned by Udacity logout of session: \(usefulData)")
+            }
+            
+            // 6. Use the data
+            
+            // GUARD: do we have a session dictionary?
+            guard let sessionDictionary = parsedResult[Constants.UDACITY.session]!! as? [String:AnyObject] else {
+                sendError("Error loging out: no session dictionary")
+                return
+            }
+            
+            if let sessionID = sessionDictionary[Constants.UDACITY.id] {
+                    print("successful log out: \(sessionID)")
+                    completionHandlerForLogout(success: true, error: nil)
+                } else {
+                    sendError("Could not parse session ID from logout response")
+                }
+            
+        }
+        
+        // 7. Start the request
+        task.resume()
+    
     }
 
     // MARK: PARSE API
@@ -316,7 +396,6 @@ class API: NSObject {
             // GUARD: get the locations data from result
             guard let locationsArray = parsedResult[Constants.PARSE.results] as? [[String:AnyObject]] else {
                 sendError("Could not parse location results")
-                // TODO: display alert to user
                 return
             }
             
@@ -469,6 +548,8 @@ class API: NSObject {
         task.resume()
         
     }
+    
+
     
     // MARK: Shared Instance
     

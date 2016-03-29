@@ -88,6 +88,25 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
+        print("login out of mapView")
+        
+        API.sharedInstance().logoutFromUdacity { (success, error) in
+            
+            guard (error == nil) else {
+                print("There was an error with loging out of Udacity: \(error)")
+                self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
+                return
+            }
+            
+            if success {
+                print("successful loging out of Udacity")
+                performUIUpdatesOnMain({ 
+                    if let tabBarController = self.tabBarController {
+                        tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                    }
+                })
+            }
+        }
     }
     
     @IBAction func unwindToMap(unwindSegue: UIStoryboardSegue) {
@@ -140,10 +159,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     // MARK: utilities
-    
-    func logout() {
-        print("loging out")
-    }
     
     func enterLocation() {
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController

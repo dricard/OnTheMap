@@ -21,6 +21,7 @@ struct Constants {
         
         // opening a session
         static let baseUrl = "https://www.udacity.com/api/session"
+        
         // session response
         static let account = "account"
         static let registered = "registered"
