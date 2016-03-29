@@ -33,15 +33,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // setting the Navigation bar
         // setting the title
         title = "On the map"
-        // create an array for the buttons on the right
-        var navBarItems = [UIBarButtonItem]()
-        navBarItems.append(UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(MapViewController.refreshData)))
-        navBarItems.append(UIBarButtonItem(image: UIImage(named: "AddLocation"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
-        // setting the left side button
-        parentViewController!.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: #selector(MapViewController.logout))
-        // adding the right side buttons
-        parentViewController!.navigationItem.rightBarButtonItems = navBarItems
-        
      }
     
     override func viewWillAppear(animated: Bool) {
