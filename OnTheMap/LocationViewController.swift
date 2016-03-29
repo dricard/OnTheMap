@@ -100,18 +100,21 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
             
             // GUARD: checks to see if there is an error
             guard error == nil else {
+                self.presentAlertMessage("Cannot find location", message: "Could not identify location, please try to add more information and be sure to include at least a city name and a state or country.")
                 print("Geocoder returned an error: \(error)")
                 return
             }
 
             // GUARD: checks to see if there is data returned
             guard let data = data else {
+                self.presentAlertMessage("Cannot find location", message: "Could not identify location, please try to add more information and be sure to include at least a city name and a state or country.")
                 print("Data returned from Geocoder is nil")
                 return
             }
             
             // GUARD: unwraps first location returned
             guard let location = data[0].location else {
+                self.presentAlertMessage("Cannot find location", message: "Could not identify location, please try to add more information and be sure to include at least a city name and a state or country.")
                print("Invalid or null location data in returned placemark")
                return
             }
