@@ -18,8 +18,9 @@ import CoreLocation
 class LocationViewController: UIViewController, UITextFieldDelegate {
 
 
-    // MARK: variables
+    // MARK: Properties
     
+    var callingViewControllerIsMap: Bool?
     let labelInformation = UILabel()
     let labelLocation = UILabel()
     let labelPlease = UILabel()
@@ -56,6 +57,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
         // configure the activity indicator we'll use while geocoding
         configureActivityIndicatorView()
+        
         
     }
     
@@ -146,6 +148,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationPostingView") as! LocationPostingViewController
             controller.coordinates = coordinates
             controller.mapString = self.locationTextField.text!
+            controller.callingViewControllerIsMap = self.callingViewControllerIsMap!
             self.presentViewController(controller, animated: true, completion: nil)
         }
     }

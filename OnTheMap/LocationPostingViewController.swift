@@ -14,6 +14,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
 
     // MARK: Properties
 
+    var callingViewControllerIsMap: Bool?
     var coordinates: CLLocationCoordinate2D?
     var mapString: String?
 
@@ -44,7 +45,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         labelURL.font = UIFont.boldSystemFontOfSize(18)
         labelURL.text = "URL"
         self.view.addSubview(labelURL)
-        
+
         configureActivityIndicatorView()
 
     }
@@ -145,8 +146,12 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         // Stop the activity indicator
         activityIndicator.stopAnimating()
 
-        // Now that we're done, segue back to MapViewController
-        performSegueWithIdentifier("unwindBackToMapVC", sender: "locationPostingVC")
+        // Now that we're done, segue back to the calling ViewController
+        if callingViewControllerIsMap! {
+            performSegueWithIdentifier("unwindBackToMapVC", sender: "locationPostingVC")
+        } else {
+            performSegueWithIdentifier("unwindBackToTableVC", sender: "locationPostingVC")
+        }
         
     }
     

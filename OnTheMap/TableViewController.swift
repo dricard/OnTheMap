@@ -32,7 +32,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         // create an array for the buttons on the right
         var navBarItems = [UIBarButtonItem]()
         navBarItems.append(UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(MapViewController.refreshData)))
-        navBarItems.append(UIBarButtonItem(image: UIImage(named: "MapNavBarItem"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
+        navBarItems.append(UIBarButtonItem(image: UIImage(named: "AddLocation"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
         // setting the left side button
         parentViewController!.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: #selector(MapViewController.logout))
         // adding the right side buttons
@@ -80,12 +80,28 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     
     @IBAction func userTappedAddLocation(sender: AnyObject) {
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
+        controller.callingViewControllerIsMap = false
         self.presentViewController(controller, animated: true, completion: nil)
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
     }
     
+    @IBAction func unwindToTable(unwindSegue: UIStoryboardSegue) {
+        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
+
+            if Model.sharedInstance().userInformation?.objectId != "" {
+                
+                // first, fetch new data from Parse API
+                refreshData()                
+            }
+            
+        }
+        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
+            print("Coming from location")
+        }
+    }
+
     // MARK: utilities
     
     func logout() {
@@ -114,7 +130,7 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             detailTextLabel.text = "URL: \(location.mediaUrl)"
         }
 
-        cell.imageView!.image = UIImage(named: "MapNavBarItem")
+        cell.imageView!.image = UIImage(named: "GenericLocation")
         cell.imageView!.contentMode = UIViewContentMode.ScaleAspectFit
         
         return cell

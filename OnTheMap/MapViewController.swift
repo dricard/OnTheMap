@@ -36,7 +36,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         // create an array for the buttons on the right
         var navBarItems = [UIBarButtonItem]()
         navBarItems.append(UIBarButtonItem(barButtonSystemItem: .Refresh, target: self, action: #selector(MapViewController.refreshData)))
-        navBarItems.append(UIBarButtonItem(image: UIImage(named: "MapNavBarItem"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
+        navBarItems.append(UIBarButtonItem(image: UIImage(named: "AddLocation"), style: .Plain, target: self, action: #selector(MapViewController.enterLocation)))
         // setting the left side button
         parentViewController!.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Reply, target: self, action: #selector(MapViewController.logout))
         // adding the right side buttons
@@ -45,7 +45,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
      }
     
     override func viewWillAppear(animated: Bool) {
-        
+        super.viewWillAppear(animated)
         // TODO: change the post icon to either the '+' version if nothing was yet posted
         // or 'u' version if posting will update an already posted location for that user
         // (test if objectID == "", or perhaps add a property for it)
@@ -97,6 +97,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func userTappedAddLocation(sender: AnyObject) {
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
+        controller.callingViewControllerIsMap = true
         self.presentViewController(controller, animated: true, completion: nil)
     }
     
