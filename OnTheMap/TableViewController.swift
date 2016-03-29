@@ -77,7 +77,6 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
-        print("login out of listView")
         
         API.sharedInstance().logoutFromUdacity { (success, error) in
             
@@ -88,7 +87,6 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             }
             
             if success {
-                print("successful loging out of Udacity")
                 performUIUpdatesOnMain({
                     if let tabBarController = self.tabBarController {
                         tabBarController.dismissViewControllerAnimated(true, completion: nil)

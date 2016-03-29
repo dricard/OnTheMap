@@ -39,6 +39,10 @@ struct Constants {
         static let firstName = "first_name"
         static let imageUrl = "_image_url"
         
+        // Error codes
+        static let networkError = 1
+        static let authenticationError = 2
+        
     }
     
     struct PARSE {

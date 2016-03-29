@@ -71,29 +71,33 @@ class API: NSObject {
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
             // MARK: Utility function
-            func sendError(error: String) {
-                print(error)
+            func sendError(error: String, code: Int) {
+                print("error: \(error), code: \(code)")
                 // Build an informative NSError to return
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForAuth(success: false, error: NSError(domain: "authenticateWithUdacity", code: 1, userInfo: userInfo))
+                completionHandlerForAuth(success: false, error: NSError(domain: "authenticateWithUdacity", code: code, userInfo: userInfo))
             }
             
             // GUARD: was there an error?
             guard (error == nil) else {
-                sendError("There was an error with the request to Udacity API: \(error)")
+                sendError("There was an error with the request to Udacity API: \(error)", code: Constants.UDACITY.networkError)
                 return
             }
             
             // GUARD: did we get a successful 2XX response?
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
-                sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)")
+                if theStatusCode == 403 {
+                    sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)", code: Constants.UDACITY.authenticationError)
+                } else {
+                    sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)", code: Constants.UDACITY.networkError)
+                }
                 return
             }
             
             // GUARD: was there data returned?
             guard let data = data else {
-                sendError("No data was returned by the request!")
+                sendError("No data was returned by the request!", code: Constants.UDACITY.networkError)
                 return
             }
             
@@ -105,14 +109,14 @@ class API: NSObject {
             do {
                 parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
             } catch {
-                sendError("Could not parse the data returned by Udacity create session: \(usefulData)")
+                sendError("Could not parse the data returned by Udacity create session: \(usefulData)", code: Constants.UDACITY.networkError)
             }
             
             // 6. Use the data
             
             // GUARD: is the user registered?
             guard let isRegistered = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.registered] as? Bool else {
-                sendError("Account is unregistered")
+                sendError("Account is unregistered", code: Constants.UDACITY.authenticationError)
                 return
             }
             
@@ -120,7 +124,7 @@ class API: NSObject {
                 if let uniqueKey = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.key] as? String {
                     self.getUserPublicData(uniqueKey, completionHandlerForAuth: completionHandlerForAuth)
                 } else {
-                    sendError("Could not parse unique key from user data")
+                    sendError("Could not parse unique key from user data", code: Constants.UDACITY.authenticationError)
                 }
             }
             
@@ -314,7 +318,6 @@ class API: NSObject {
             }
             
             if let sessionID = sessionDictionary[Constants.UDACITY.id] {
-                    print("successful log out: \(sessionID)")
                     completionHandlerForLogout(success: true, error: nil)
                 } else {
                     sendError("Could not parse session ID from logout response")

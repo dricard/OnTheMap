@@ -88,8 +88,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
-        print("login out of mapView")
-        
+
         API.sharedInstance().logoutFromUdacity { (success, error) in
             
             guard (error == nil) else {
@@ -99,8 +98,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             }
             
             if success {
-                print("successful loging out of Udacity")
-                performUIUpdatesOnMain({ 
+
+                performUIUpdatesOnMain({
                     if let tabBarController = self.tabBarController {
                         tabBarController.dismissViewControllerAnimated(true, completion: nil)
                     }

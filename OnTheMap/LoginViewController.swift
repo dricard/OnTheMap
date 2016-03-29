@@ -86,7 +86,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
                         self.completeLogin()
                     } else {
                         print("Error returned by authenticateWithUdacity: \(error)")
-                        self.presentAlertMessage("Authentication error", message: "Your credentials were refused, please check your email and password and try again or signup.")
+                        if let error = error {
+                            if error.code == Constants.UDACITY.networkError {
+                                self.presentAlertMessage("Network error", message: "There was a problem with the network connection, please make sure that you have a connection to the internet.")
+                              
+                            } else {
+                                self.presentAlertMessage("Authentication error", message: "Your credentials were refused, please check your email and password and try again or signup.")
+                            }
+                        }
                     }
                 }
             }
