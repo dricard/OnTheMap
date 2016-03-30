@@ -117,7 +117,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
                     self.completePosting(newPosting, objectId: objectId, createdAt: createdAt)
                 } else {
                     print("Error returned by postStudentLocation: \(error)")
-                    self.presentAlertMessage("Error", message: "There was an error sending your information, please try again.")
+                    self.presentAlertMessage("Error", message: "There was an error sending your information to the server, please check the network connection and try again.")
                 }
             }
 

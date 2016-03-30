@@ -125,15 +125,36 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
 
     // MARK: utilities
-    
-    func logout() {
-        print("loging out")
+
+    func validateURL(url: String) -> NSURL? {
+
+        let types: NSTextCheckingType = .Link
+        
+        var detector: AnyObject!
+        do {
+            detector = try NSDataDetector(types: types.rawValue)
+        } catch {
+            print("Error validating URL: \(url)")
+            return nil
+        }
+        
+        guard let detect = detector else {
+            return nil
+        }
+        
+        let matches = detect.matchesInString(url, options: .ReportCompletion, range: NSMakeRange(0, url.characters.count))
+        
+        if !matches.isEmpty {
+            if let validURL = matches[0].URL {
+                return validURL
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
     }
     
-    func enterLocation() {
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
-        self.presentViewController(controller, animated: true, completion: nil)
-    }
     
     // MARK: TableView Delegates
     
@@ -149,7 +170,11 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.textLabel!.text = location.firstName + " " + location.lastName
         // If the cell has a detail label, we will put the mediaURL in.
         if let detailTextLabel = cell.detailTextLabel {
-            detailTextLabel.text = "URL: \(location.mediaUrl)"
+            if let url = validateURL(location.mediaUrl) {
+                detailTextLabel.text = "URL: \(url)"
+            } else {
+                detailTextLabel.text = "URL: invalid URL (\(location.mediaUrl))"
+            }
         }
 
         cell.imageView!.image = UIImage(named: "GenericLocation")
