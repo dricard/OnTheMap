@@ -126,6 +126,15 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
 
     // MARK: utilities
 
+    // This is a modified version of something found on stackoverflow
+    
+    /// Returns a validated (format only) URL or nil if not able to
+    /// make one with the supplied url.
+    /// - parameters:
+    ///    - url: the String associated with the mediaURL on Udacity.
+    /// - returns:
+    ///    - a valid NSURL, or
+    ///    - `nil` if unsuccessful.
     func validateURL(url: String) -> NSURL? {
 
         let types: NSTextCheckingType = .Link
@@ -155,6 +164,33 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
     
+    func colorFromURL(url: NSURL) -> UIColor {
+        guard let urlString = url.host else {
+            print("could not unwrap baseURL in colorFromURL: \(url)")
+            return UIColor.whiteColor()
+        }
+        print(urlString)
+        switch urlString {
+        case "www.udacity.com", "udacity.com":
+            print("UDACITY found, returning udacity color: \(urlString)")
+            return Constants.COLOR.udacity
+        case "www.apple.com", "apple.com":
+            print("APPLE found, returning apple color: \(urlString)")
+           return Constants.COLOR.apple
+        case "www.google.com", "google.com", "www.google.ca", "google.ca":
+            print("GOOGLE found, returning google color: \(urlString)")
+            return Constants.COLOR.google
+        case "www.twitter.com", "twitter.com":
+            print("TWITTER found, returning twitter color: \(urlString)")
+            return Constants.COLOR.twitter
+        case "www.hexaedre.com", "hexaedre.com":
+            print("HEXA found, returning hexa color: \(urlString)")
+            return Constants.COLOR.hexaedre
+        default:
+            print("returning default color")
+            return UIColor.whiteColor()
+        }
+    }
     
     // MARK: TableView Delegates
     
@@ -172,8 +208,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         if let detailTextLabel = cell.detailTextLabel {
             if let url = validateURL(location.mediaUrl) {
                 detailTextLabel.text = "URL: \(url)"
+                cell.backgroundColor = colorFromURL(url)
             } else {
                 detailTextLabel.text = "URL: invalid URL (\(location.mediaUrl))"
+                cell.backgroundColor = UIColor.lightGrayColor()
             }
         }
 

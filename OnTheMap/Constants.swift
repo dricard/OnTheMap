@@ -6,7 +6,7 @@
 //  Copyright © 2016 Denis Ricard. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 /// Holds all the URLs and keys of the Udacity and Parse APIs. This way if
 /// the APIs change in the futur only this files needs to be updated.
@@ -62,5 +62,13 @@ struct Constants {
         static let objectId = "objectId"
         static let uniqueKey = "uniqueKey"
         static let updatedAt = "updatedAt"
+    }
+    
+    struct COLOR {
+        static let udacity = UIColor(red:0.012,  green:0.706,  blue:0.898, alpha:1)
+        static let apple = UIColor(red:0.715,  green:0.744,  blue:0.939, alpha:1)
+        static let google = UIColor(red:0.988,  green:0.741,  blue:0.016, alpha:1)
+        static let twitter = UIColor(red:0.608,  green:0.935,  blue:0.446, alpha:1)
+        static let hexaedre = UIColor(red:0.420,  green:0.639,  blue:0.722, alpha:1)
     }
 }
