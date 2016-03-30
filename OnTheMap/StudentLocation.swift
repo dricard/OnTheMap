@@ -52,11 +52,16 @@ struct StudentLocation {
         objectId = dictionary[Constants.PARSE.objectId] as! String
         mediaUrlIsValid = true
         mediaNSURL = NSURL()
+        // check to see if URL seems valid
         if let validatedURL = validateURL(mediaUrl) {
-            // change url to the reconditionned one
-            mediaUrl = validatedURL.absoluteString
-            mediaNSURL = validatedURL
+            // looks good.
             mediaUrlIsValid = true
+            // change url to the reconditionned one
+            // in case some parts were fixed
+            mediaUrl = validatedURL.absoluteString
+            // also keep the NSURL to simplify the coloration of
+            // rows in the tableView
+            mediaNSURL = validatedURL
         } else {
             mediaUrlIsValid = false
             // leave the url as it was

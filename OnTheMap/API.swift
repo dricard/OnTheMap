@@ -348,12 +348,19 @@ class API: NSObject {
         // Get the student location informations from Parse API
         
         // 1. set the parameters
-        // There are none
+        // Set the sort order to get the most recently updated locations
+        var methodParameters = [String:AnyObject]()
+        methodParameters[Constants.PARSE.order] = "-" + Constants.PARSE.updatedAt
         
         // 2./3. Build URL and configure the request
-        let url = NSURL(string: Constants.PARSE.baseUrl)
+        let urlString = Constants.PARSE.baseUrl + escapedParameters(methodParameters)
         
-        let request = NSMutableURLRequest(URL: url!)
+        guard var url = NSURL(string: urlString) else {
+            print("could not unwrap NSURL in getStudentLocation")
+            return
+        }
+        
+        let request = NSMutableURLRequest(URL: url)
         request.addValue("QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", forHTTPHeaderField: "X-Parse-REST-API-Key")
         request.addValue("QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", forHTTPHeaderField: "X-Parse-Application-Id")
         
@@ -556,6 +563,29 @@ class API: NSObject {
         
     }
     
+    private func escapedParameters(parameters: [String:AnyObject]) -> String {
+        
+        if parameters.isEmpty {
+            return ""
+        } else {
+            var keyValuePairs = [String]()
+            
+            for (key, value) in parameters {
+                
+                // make sure that it is a string value
+                let stringValue = "\(value)"
+                
+                // escape it
+                let escapedValue = stringValue.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLQueryAllowedCharacterSet())
+                
+                // append it
+                keyValuePairs.append(key + "=" + "\(escapedValue!)")
+                
+            }
+            
+            return "?\(keyValuePairs.joinWithSeparator("&"))"
+        }
+    }
 
     
     // MARK: Shared Instance
