@@ -70,5 +70,6 @@ struct Constants {
         static let google = UIColor(red:0.988,  green:0.741,  blue:0.016, alpha:1)
         static let twitter = UIColor(red:0.608,  green:0.935,  blue:0.446, alpha:1)
         static let hexaedre = UIColor(red:0.420,  green:0.639,  blue:0.722, alpha:1)
+        static let pinColor = UIColor(red:0.676,  green:0.882,  blue:0.966, alpha:1)
     }
 }

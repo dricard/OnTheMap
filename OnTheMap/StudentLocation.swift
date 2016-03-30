@@ -37,6 +37,7 @@ struct StudentLocation {
     var updatedAt: String
     var objectId: String
     var mediaUrlIsValid: Bool
+    var mediaNSURL: NSURL
 
     init(dictionary: [String:AnyObject]) {
         uniqueKey = dictionary[Constants.PARSE.uniqueKey] as! String
@@ -50,9 +51,11 @@ struct StudentLocation {
         updatedAt = dictionary[Constants.PARSE.updatedAt] as! String
         objectId = dictionary[Constants.PARSE.objectId] as! String
         mediaUrlIsValid = true
+        mediaNSURL = NSURL()
         if let validatedURL = validateURL(mediaUrl) {
             // change url to the reconditionned one
             mediaUrl = validatedURL.absoluteString
+            mediaNSURL = validatedURL
             mediaUrlIsValid = true
         } else {
             mediaUrlIsValid = false

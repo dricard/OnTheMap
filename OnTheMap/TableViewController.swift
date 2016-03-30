@@ -111,6 +111,8 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         }
     }
 
+    // MARK: utilities
+
     /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
     /// an 'OK' button.
     func presentAlertMessage(title: String, message: String) {
@@ -124,44 +126,23 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         
     }
 
-    // MARK: utilities
-
-    // This is a modified version of something found on stackoverflow
+    /// Display a two-button alert message to communicate choices to the user. Display a title, a message, and
+    /// an 'OK' button.
+    func presentAlertMessageWithOption(title: String, message: String, url: String) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { action in  })
+        controller.addAction(cancelAction)
+        let goAheadAction = UIAlertAction(title: "Try URL", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            self.showUrl(url)
+        })
+        controller.addAction(goAheadAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
     
-    /// Returns a validated (format only) URL or nil if not able to
-    /// make one with the supplied url.
-    /// - parameters:
-    ///    - url: the String associated with the mediaURL on Udacity.
-    /// - returns:
-    ///    - a valid NSURL, or
-    ///    - `nil` if unsuccessful.
-    func validateURL(url: String) -> NSURL? {
-
-        let types: NSTextCheckingType = .Link
-        
-        var detector: AnyObject!
-        do {
-            detector = try NSDataDetector(types: types.rawValue)
-        } catch {
-            print("Error validating URL: \(url)")
-            return nil
-        }
-        
-        guard let detect = detector else {
-            return nil
-        }
-        
-        let matches = detect.matchesInString(url, options: .ReportCompletion, range: NSMakeRange(0, url.characters.count))
-        
-        if !matches.isEmpty {
-            if let validURL = matches[0].URL {
-                return validURL
-            } else {
-                return nil
-            }
-        } else {
-            return nil
-        }
+    func showUrl(url: String) {
+        UIApplication.sharedApplication().openURL(NSURL(string: url)!)
     }
     
     func colorFromURL(url: NSURL) -> UIColor {
@@ -169,25 +150,19 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             print("could not unwrap baseURL in colorFromURL: \(url)")
             return UIColor.whiteColor()
         }
-        print(urlString)
+
         switch urlString {
         case "www.udacity.com", "udacity.com":
-            print("UDACITY found, returning udacity color: \(urlString)")
             return Constants.COLOR.udacity
         case "www.apple.com", "apple.com":
-            print("APPLE found, returning apple color: \(urlString)")
            return Constants.COLOR.apple
         case "www.google.com", "google.com", "www.google.ca", "google.ca":
-            print("GOOGLE found, returning google color: \(urlString)")
             return Constants.COLOR.google
         case "www.twitter.com", "twitter.com":
-            print("TWITTER found, returning twitter color: \(urlString)")
             return Constants.COLOR.twitter
         case "www.hexaedre.com", "hexaedre.com":
-            print("HEXA found, returning hexa color: \(urlString)")
             return Constants.COLOR.hexaedre
         default:
-            print("returning default color")
             return UIColor.whiteColor()
         }
     }
@@ -206,9 +181,9 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         cell.textLabel!.text = location.firstName + " " + location.lastName
         // If the cell has a detail label, we will put the mediaURL in.
         if let detailTextLabel = cell.detailTextLabel {
-            if let url = validateURL(location.mediaUrl) {
-                detailTextLabel.text = "URL: \(url)"
-                cell.backgroundColor = colorFromURL(url)
+            if location.mediaUrlIsValid {
+                detailTextLabel.text = "URL: \(location.mediaUrl)"
+                cell.backgroundColor = colorFromURL(location.mediaNSURL)
             } else {
                 detailTextLabel.text = "URL: invalid URL (\(location.mediaUrl))"
                 cell.backgroundColor = UIColor.lightGrayColor()
@@ -230,7 +205,12 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
         
         let location = studentLocations[indexPath.row]
 
-        UIApplication.sharedApplication().openURL(NSURL(string: location.mediaUrl)!)
+        if location.mediaUrlIsValid {
+            showUrl(location.mediaUrl)
+        } else {
+            // url is not valid, offer a choice to user
+            presentAlertMessageWithOption("Invalid URL", message: "The URL \"\(location.mediaUrl)\" appears to be invalid, are you sure you want to open it?", url: location.mediaUrl)
+        }
         
     }
 }
