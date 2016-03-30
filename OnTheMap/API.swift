@@ -418,7 +418,11 @@ class API: NSObject {
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = coordinate
                 annotation.title = "\(studentLocation.firstName) \(studentLocation.lastName)"
-                annotation.subtitle = studentLocation.mediaUrl
+                if studentLocation.mediaUrlIsValid {
+                    annotation.subtitle = studentLocation.mediaUrl
+                } else {
+                    annotation.subtitle = "?:" + studentLocation.mediaUrl
+                }
                 
                 // Finally we place the annotation in an array of annotations.
                 annotations.append(annotation)

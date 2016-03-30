@@ -36,8 +36,7 @@ struct StudentLocation {
     var createdAt: String
     var updatedAt: String
     var objectId: String
-    var imageUrl: String
-
+    var mediaUrlIsValid: Bool
 
     init(dictionary: [String:AnyObject]) {
         uniqueKey = dictionary[Constants.PARSE.uniqueKey] as! String
@@ -50,7 +49,54 @@ struct StudentLocation {
         createdAt = dictionary[Constants.PARSE.createdAt] as! String
         updatedAt = dictionary[Constants.PARSE.updatedAt] as! String
         objectId = dictionary[Constants.PARSE.objectId] as! String
-        imageUrl = ""
+        mediaUrlIsValid = true
+        if let validatedURL = validateURL(mediaUrl) {
+            // change url to the reconditionned one
+            mediaUrl = validatedURL.absoluteString
+            mediaUrlIsValid = true
+        } else {
+            mediaUrlIsValid = false
+            // leave the url as it was
+        }
 
     }
+    
+    // This is a modified version of something found on stackoverflow
+    
+    /// Returns a validated (format only) URL or nil if not able to
+    /// make one with the supplied url.
+    /// - parameters:
+    ///    - url: the String associated with the mediaURL on Udacity.
+    /// - returns:
+    ///    - a valid NSURL, or
+    ///    - `nil` if unsuccessful.
+    func validateURL(url: String) -> NSURL? {
+        
+        let types: NSTextCheckingType = .Link
+        
+        var detector: AnyObject!
+        do {
+            detector = try NSDataDetector(types: types.rawValue)
+        } catch {
+            print("Error validating URL: \(url)")
+            return nil
+        }
+        
+        guard let detect = detector else {
+            return nil
+        }
+        
+        let matches = detect.matchesInString(url, options: .ReportCompletion, range: NSMakeRange(0, url.characters.count))
+        
+        if !matches.isEmpty {
+            if let validURL = matches[0].URL {
+                return validURL
+            } else {
+                return nil
+            }
+        } else {
+            return nil
+        }
+    }
+
 }

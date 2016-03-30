@@ -48,7 +48,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             
             guard (error == nil) else {
                 print("Error returned by getLocationData in MapViewController: \(error)")
-                self.presentAlertMessage("Communication error", message: "Unable to connect to server, please check your internet connection")
+                self.presentAlertMessage("Communication error", message: "Unable to connect to server, please check your internet connection.")
                 return
             }
             
@@ -134,9 +134,20 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     // MARK: MapView Delegates
     
     //Opens the mediaURL in Safari when the annotation info box is tapped.
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView!, calloutAccessoryControlTapped control: UIControl!) {
-        
-        UIApplication.sharedApplication().openURL(NSURL(string: view.annotation!.subtitle!!)!)
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if let urlString = view.annotation!.subtitle! {
+            let prefix = String(urlString.characters.prefix(2))
+            if prefix == "?:" {
+                // url is not valid, offer a choice to user, but first remove the prefix
+                let index2 = urlString.startIndex.advancedBy(2)
+                let url = String(urlString.characters.suffixFrom(index2))
+                presentAlertMessageWithOption("Invalid URL", message: "The URL \"\(url)\" appears to be invalid, are you sure you want to open it?", url: url)
+            } else {
+                // Url is normally good, display it
+                showUrl(urlString)
+            }
+        }
+//        UIApplication.sharedApplication().openURL(NSURL(string: view.annotation!.subtitle!!)!)
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -159,12 +170,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: utilities
     
-    func enterLocation() {
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
-        self.presentViewController(controller, animated: true, completion: nil)
+//    func enterLocation() {
+//        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
+//        self.presentViewController(controller, animated: true, completion: nil)
+//    }
+    
+    func showUrl(url: String) {
+        UIApplication.sharedApplication().openURL(NSURL(string: url)!)
     }
     
-    /// Display a one button alert message to communicate errors to the user. Display a title, a messge, and
+    /// Display a one button alert message to communicate errors to the user. Display a title, a message, and
     /// an 'OK' button.
     func presentAlertMessage(title: String, message: String) {
         let controller = UIAlertController()
@@ -177,5 +192,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
+    /// Display a two-button alert message to communicate choices to the user. Display a title, a message, and
+    /// an 'OK' button.
+    func presentAlertMessageWithOption(title: String, message: String, url: String) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { action in  })
+        controller.addAction(cancelAction)
+        let goAheadAction = UIAlertAction(title: "Try URL", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            self.showUrl(url)
+            })
+        controller.addAction(goAheadAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
 
 }
