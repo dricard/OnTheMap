@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 /// This is the first View that appears when the app is launched. It
 /// lets the user enter his/her credentials and then attempt to 
@@ -40,6 +42,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // setting the text fields delegates
         userEmail.delegate = self
         userPassword.delegate = self
+        
+        // Add Facebook login button
+        let fbLoginButton: FBSDKLoginButton = FBSDKLoginButton()
+        fbLoginButton.center = view.center
+        view.addSubview(fbLoginButton)
     }
     
     override func viewWillAppear(animated: Bool) {
