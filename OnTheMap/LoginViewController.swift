@@ -17,20 +17,21 @@ import FBSDKLoginKit
 /// The user has the option to:
 /// - login: with credentials, or
 /// - signup: to Udacity (this presents a web view)
-class LoginViewController: UIViewController, UITextFieldDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
 
     /// MARK: properties
     
     var userLastName: String = ""
     var userFirstName: String = ""
     var userImageUrl: String = ""
+    var fbAccessToken = FBSDKAccessToken.currentAccessToken()
     
     // MARK: outlets
     
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var loginButton: FBSDKLoginButton!
     
     // MARK: life cycle
     
@@ -47,11 +48,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         let fbLoginButton: FBSDKLoginButton = FBSDKLoginButton()
         fbLoginButton.center = view.center
         view.addSubview(fbLoginButton)
+        
+        fbLoginButton.delegate = self
+        fbLoginButton.readPermissions = ["public_profile"]
+        
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loginButton.enabled = true
         subscribeToKeyboardShowNotifications()
     }
     
@@ -147,6 +151,36 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // MARK: Facebook delegate
+    
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+        // TODO: enter code to manage facebook login here
+        print("TRACE: in loginButton: result: \(result); error: \(error).")
+
+        if fbAccessToken != nil {
+            print(fbAccessToken)
+        } else {
+            print("Access token is nil")
+        }
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        // TODO: enter code to manage facebook log out here
+        print("TRACE: in loginButtonDidLogOut")
+
+    }
+    
+    func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
+        // TODO: enter code to manage facebook log in here
+        if fbAccessToken == nil {
+            print("TRACE: in loginButtonWillLogin: fbAccessToken is nil")
+            return true
+        } else {
+            print("TRACE: in loginButtonWillLogin: fbAccessToken is not nil")
+            print("FB access token not nil, should not attempt to log in again")
+            return false
+        }
+    }
     
     // MARK: utilities functions
     

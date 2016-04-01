@@ -9,6 +9,8 @@
 import UIKit
 import Foundation
 import MapKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 /// All networking code interfacing with APIs is contained in this class. Access through
 /// `API.sharedInstance().methodName`.
@@ -589,6 +591,25 @@ class API: NSObject {
 
     // MARK: Facebook Login
     
+    func authenticateWithFacebook(completionHandlerForFBAuth: (success: Bool, error: NSError?) -> Void) {
+ 
+        // 1. set up the parameters
+        
+        let permissions = [
+            "public_profile"
+        ]
+        
+        
+        // 2./3. Build URL and configure the request
+ 
+        
+        // 4. Make the request
+        
+        
+        
+        // 7. Start the request
+
+    }
     
     
     // MARK: Shared Instance
