@@ -111,17 +111,10 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func unwindToTable(unwindSegue: UIStoryboardSegue) {
-        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
-
-            if Model.sharedInstance().userInformation?.objectId != "" {
-                
-                // first, fetch new data from Parse API
-                refreshData()                
-            }
+        if Model.sharedInstance().userInformation?.objectId != "" {
             
-        }
-        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
-            print("Coming from location")
+            // fetch new data from Parse API to reflect newly posted location
+            refreshData()
         }
     }
 

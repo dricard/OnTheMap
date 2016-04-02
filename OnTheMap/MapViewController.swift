@@ -122,25 +122,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func unwindToMap(unwindSegue: UIStoryboardSegue) {
-        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
-
-            if Model.sharedInstance().userInformation?.objectId != "" {
-
-                // first, fetch new data from Parse API
-                refreshData()
-                // then change the span to center on the newly posted area
-                let latitudeDelta = CLLocationDegrees(1.0)
-                let longitudeDelta = CLLocationDegrees(1.0)
-                let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
-                let coordinate = CLLocationCoordinate2D(latitude: (Model.sharedInstance().userInformation?.latitude)!, longitude: (Model.sharedInstance().userInformation?.longitude)!)
-                let region = MKCoordinateRegionMake(coordinate, span)
-                mapView.setRegion(region, animated: true)
-               
-            }
+        if Model.sharedInstance().userInformation?.objectId != "" {
             
-        }
-        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
-            print("Coming from location")
+            // fetch new data from Parse API to reflect newly posted location
+            refreshData()
+            // then change the span to center on the newly posted area
+            let latitudeDelta = CLLocationDegrees(1.0)
+            let longitudeDelta = CLLocationDegrees(1.0)
+            let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
+            let coordinate = CLLocationCoordinate2D(latitude: (Model.sharedInstance().userInformation?.latitude)!, longitude: (Model.sharedInstance().userInformation?.longitude)!)
+            let region = MKCoordinateRegionMake(coordinate, span)
+            mapView.setRegion(region, animated: true)
+            
         }
     }
 
