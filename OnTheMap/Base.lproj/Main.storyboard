@@ -115,30 +115,49 @@
                                     <action selector="loginWithFacebookPressed:" destination="BYZ-38-t0r" eventType="valueChanged" id="GAe-if-B2f"/>
                                 </connections>
                             </view>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vTi-qH-0PE">
+                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                            </activityIndicatorView>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nf8-LH-3Ut">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="1Ju-gp-hON">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                         </subviews>
                         <color key="backgroundColor" red="0.5607843137254902" green="0.74901960784313726" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstItem="abN-mb-1te" firstAttribute="top" secondItem="wUo-eA-Zv3" secondAttribute="bottom" constant="12" id="2on-H9-D5v"/>
                             <constraint firstItem="wsy-ZC-f5s" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="3Ok-Dg-HCe"/>
+                            <constraint firstItem="Nf8-LH-3Ut" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="6RG-z5-hSW"/>
                             <constraint firstItem="dzp-Nu-jzV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="8CO-q3-DZ1"/>
                             <constraint firstItem="zYc-Lr-LHv" firstAttribute="top" secondItem="wUo-eA-Zv3" secondAttribute="bottom" constant="8" id="9fG-Ym-akC"/>
                             <constraint firstItem="dzp-Nu-jzV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="B7Q-ho-TB9"/>
+                            <constraint firstItem="vTi-qH-0PE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="EtX-Cm-AXq"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="Nf8-LH-3Ut" secondAttribute="bottom" id="Fma-0U-6Vf"/>
                             <constraint firstItem="Bqj-3d-2c6" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Fyc-to-dNa"/>
                             <constraint firstItem="Bqj-3d-2c6" firstAttribute="top" secondItem="xuu-Hp-OTJ" secondAttribute="bottom" constant="24" id="LyL-CT-t9V"/>
                             <constraint firstItem="5Gw-KN-Uvr" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="QnQ-n5-Fj1"/>
                             <constraint firstItem="abN-mb-1te" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="-22" id="Vco-fv-KFr"/>
                             <constraint firstItem="xuu-Hp-OTJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="ZWF-db-JD4"/>
+                            <constraint firstItem="vTi-qH-0PE" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="hv6-fr-oon"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="O6b-12-dnf" secondAttribute="bottom" constant="104" id="kWS-pv-g8o"/>
                             <constraint firstItem="wUo-eA-Zv3" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="lFw-k8-zLD"/>
                             <constraint firstItem="zYc-Lr-LHv" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="82" id="mLr-Nn-16X"/>
+                            <constraint firstItem="Nf8-LH-3Ut" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="moM-C5-9Q5"/>
                             <constraint firstItem="wsy-ZC-f5s" firstAttribute="top" secondItem="dzp-Nu-jzV" secondAttribute="bottom" constant="8" id="n13-kQ-GW0"/>
                             <constraint firstItem="O6b-12-dnf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="nyi-X4-Uz3"/>
                             <constraint firstItem="xuu-Hp-OTJ" firstAttribute="top" secondItem="zYc-Lr-LHv" secondAttribute="bottom" constant="15" id="o3j-xL-TdT"/>
                             <constraint firstItem="5Gw-KN-Uvr" firstAttribute="top" secondItem="wsy-ZC-f5s" secondAttribute="bottom" constant="8" id="rFS-af-kUW"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Nf8-LH-3Ut" secondAttribute="trailing" constant="-20" id="tAi-V8-JDx"/>
                             <constraint firstItem="wUo-eA-Zv3" firstAttribute="top" secondItem="5Gw-KN-Uvr" secondAttribute="bottom" constant="8" id="wwo-QQ-kwY"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="vTi-qH-0PE" id="ab7-ON-bGe"/>
+                        <outlet property="blurView" destination="Nf8-LH-3Ut" id="JSR-qU-tXX"/>
                         <outlet property="loginButton" destination="wUo-eA-Zv3" id="fNs-Kx-T7c"/>
                         <outlet property="loginFBButton" destination="Bqj-3d-2c6" id="tBC-Ww-huT"/>
                         <outlet property="userEmail" destination="wsy-ZC-f5s" id="I8Q-ir-MKC"/>

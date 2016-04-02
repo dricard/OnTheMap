@@ -247,7 +247,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         if turnBlurOn {
             // here we set the blur over the view
             UIView.animateWithDuration(0.5, animations: { 
-                self.blurView.alpha = 1
+                self.blurView.alpha = 0.5
             })
         } else {
             // here we remove the blur

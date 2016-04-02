@@ -34,6 +34,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var loginFBButton: FBSDKLoginButton!
     
+    @IBOutlet weak var blurView: UIVisualEffectView!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     // MARK: life cycle
     
     override func viewDidLoad() {
@@ -46,11 +49,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         userPassword.delegate = self
         // setting the login with Facebook button delegate
         loginFBButton.delegate = self
+        // configure the activity indicator we'll use while geocoding
+        configureActivityIndicatorView()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         subscribeToKeyboardShowNotifications()
+        blurView.alpha = 0
     }
     
     override func viewWillDisappear(animated: Bool) {
@@ -84,12 +90,18 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         // unwrap the parameters (even if they should not be nil at this point, but to be extra sure
         // and we need non-optionals for the method call anyways)
         if let userEmailString = userEmail.text, userPasswordString = userPassword.text {
+            // visual feedback for activity
+            blurView.alpha = 0.5
+            activityIndicator.startAnimating()
             // call the authenticate method
             API.sharedInstance().authenticateWithUdacity(userEmailString, userPassword: userPasswordString) { (success, error) in
                 performUIUpdatesOnMain {
                     if success {
                         self.completeLogin()
                     } else {
+                        // reset interface
+                        self.blurView.alpha = 0
+                        self.activityIndicator.stopAnimating()
                         print("Error returned by authenticateWithUdacity: \(error)")
                         if let error = error {
                             if error.code == Constants.UDACITY.networkError {
@@ -113,6 +125,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     /// It performs a segue to the TabBarController. Students location data was stored in the *Model* class
     /// if successful as well as an array of map annotations.
     func completeLogin() {
+        // reset interface
+        blurView.alpha = 0
+        activityIndicator.stopAnimating()
         performUIUpdatesOnMain {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationTabBarController") as! UITabBarController
             self.presentViewController(controller, animated: true, completion: nil)
@@ -137,6 +152,32 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     let myTextAttributes : [ String : AnyObject ] = [
         NSForegroundColorAttributeName: UIColor.whiteColor()
     ]
+
+    /// Configures the activity indicator that is used when the geocode request is sent
+    func configureActivityIndicatorView() {
+        activityIndicator.activityIndicatorViewStyle = .WhiteLarge
+        
+        activityIndicator.hidesWhenStopped = true
+        
+        activityIndicator.color = UIColor.blueColor()
+        
+    }
+    
+
+    /// Sets a blur on/off over the View to indicate that we're geocoding the location
+    func setBlur(turnBlurOn: Bool) {
+        if turnBlurOn {
+            // here we set the blur over the view
+            UIView.animateWithDuration(0.5, animations: {
+                self.blurView.alpha = 0.5
+            })
+        } else {
+            // here we remove the blur
+            UIView.animateWithDuration(0.5, animations: {
+                self.blurView.alpha = 0
+            })
+        }
+    }
     
     // MARK: textfield delegate
     
@@ -150,6 +191,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
 
+        // visual feedback for activity
+        blurView.alpha = 0.5
+        activityIndicator.startAnimating()
         guard error == nil else {
             print("FB returned an error: \(error.localizedDescription)")
             return
@@ -163,6 +207,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                         if success {
                             self.completeLogin()
                         } else {
+                            // reset interface
+                            self.blurView.alpha = 0
+                            self.activityIndicator.stopAnimating()
                             print("Error returned by authenticateWithUdacityFB: \(error)")
                             if let error = error {
                                 if error.code == Constants.UDACITY.networkError {
@@ -183,7 +230,15 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         // reset boolean
         Model.sharedInstance().loggedInWithFacebook = false
     }
-        
+    
+    func loginButtonWillLogin(loginButton: FBSDKLoginButton!) -> Bool {
+        // visual feedback for activity
+        blurView.alpha = 0.5
+        activityIndicator.startAnimating()
+        return true
+    }
+    
+    
     // MARK: utilities functions
     
     /// Tests if the provided textField is the first responder and, if so,
