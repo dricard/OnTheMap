@@ -69,6 +69,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         let screenSize: CGSize = view.frame.size
         let wide = evaluateIfWide(screenSize)
         setTextLabelsForUI(screenSize, wide: wide)
+        findLocationButton.enabled = true
         
     }
     
@@ -93,6 +94,8 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         
         let geocoder = CLGeocoder()
         
+        // prevent user from tapping button again before we're done
+        findLocationButton.enabled = false
         // Starts an activity indicator while we send the geocode request
         activityIndicator.startAnimating()
 
@@ -133,7 +136,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     @IBAction func userPressedCancel(sender: AnyObject) {
 
         // TODO: need to use cancelGeocode?
-
+        findLocationButton.enabled = true
         activityIndicator.stopAnimating()
 
         self.dismissViewControllerAnimated(true, completion: nil )
