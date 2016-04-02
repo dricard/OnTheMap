@@ -72,7 +72,7 @@ class API: NSObject {
         // 4. Make the request
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            // MARK: Utility function
+            // Utility function
             func sendError(error: String, code: Int) {
                 print("error: \(error), code: \(code)")
                 // Build an informative NSError to return
@@ -136,15 +136,113 @@ class API: NSObject {
         task.resume()
     }
 
+    /// Uses REST API from Udacity to authenticate a valid user with a **Facebook access token**
+    /// instead of user's email and password. It will then call `getUserPublicData`
+    /// which will store the user's informations in *Model.swift*.
+    /// - note: uses keys defined in struct *Constants.swift*. **Expects non-optional Strings** so
+    /// unwrap before calling this method.
+    /// - parameters:
+    ///    - userToken: a valid user token returned by FB after successful login.
+    ///    - completionHandlerForAuthFB: this will be passed to `getUserPublicData`
+    /// - returns:
+    ///    - success is `true` and error `nil` if login was successful and no error was returned from the API
+    ///    - success is `false` and an `NSError` if the login attempt failed
+    func authenticateWithUdacityFB(userToken: String, completionHandlerForAuthFB: (success: Bool, error: NSError?) -> Void) {
+        
+        // 1. set up the parameters
+        
+        // Pass in the user token as dictionary
+        let bodyObject = [
+            "facebook_mobile": [
+                "access_token": userToken
+            ]
+        ]
+        
+        // 2./3. Build URL and configure the request
+        let url = NSURL(string: Constants.UDACITY.baseUrl)
+        let request = NSMutableURLRequest(URL: url!)
+        request.HTTPMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(bodyObject, options: [])
+        
+        // 4. Make the request
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            
+            // Utility function
+            func sendError(error: String, code: Int) {
+                print("error: \(error), code: \(code)")
+                // Build an informative NSError to return
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForAuthFB(success: false, error: NSError(domain: "authenticateWithUdacity", code: code, userInfo: userInfo))
+            }
+            
+            // GUARD: was there an error?
+            guard (error == nil) else {
+                sendError("There was an error with the request to Udacity API: \(error)", code: Constants.UDACITY.networkError)
+                return
+            }
+            
+            // GUARD: did we get a successful 2XX response?
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                let theStatusCode = (response as? NSHTTPURLResponse)?.statusCode
+                if theStatusCode == 403 {
+                    sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)", code: Constants.UDACITY.authenticationError)
+                } else {
+                    sendError("Your request to Udacity returned a status code outside the 200 range: \(theStatusCode)", code: Constants.UDACITY.networkError)
+                }
+                return
+            }
+            
+            // GUARD: was there data returned?
+            guard let data = data else {
+                sendError("No data was returned by the request!", code: Constants.UDACITY.networkError)
+                return
+            }
+            
+            // Remove first character in response to get clean JSON data - specific to Udacity's API
+            let usefulData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+            
+            // 5. Parse the data
+            var parsedResult: AnyObject!
+            do {
+                parsedResult = try NSJSONSerialization.JSONObjectWithData(usefulData, options: .AllowFragments)
+            } catch {
+                sendError("Could not parse the data returned by Udacity create session: \(usefulData)", code: Constants.UDACITY.networkError)
+            }
+            
+            // 6. Use the data
+            
+            // GUARD: is the user registered?
+            guard let isRegistered = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.registered] as? Bool else {
+                sendError("Account is unregistered", code: Constants.UDACITY.authenticationError)
+                return
+            }
+            
+            if isRegistered {
+                if let uniqueKey = parsedResult[Constants.UDACITY.account]!![Constants.UDACITY.key] as? String {
+                    self.getUserPublicData(uniqueKey, completionHandlerForAuth: completionHandlerForAuthFB)
+                } else {
+                    sendError("Could not parse unique key from user data", code: Constants.UDACITY.authenticationError)
+                }
+            }
+            
+        }
+        
+        // 7. Start the request
+        task.resume()
+    }
+
     /// Uses REST API from Udacity to get the user's public information (i.e., his or her name)
     /// and will store this in *Model.swift*.
     ///
     /// If successful the user data will be accessible from `Model.sharedInstance().userInformation`
     /// - note: uses keys defined in struct *Constants.swift*. **Do not call this directly**
-    /// this method is called by `authenticateWithUdacity`
+    /// this method is called by `authenticateWithUdacity` or `authenticateWithUdacityFB`
     /// - parameters:
     ///    - uniqueKey: the user's unique Key returned from login to Udacity.
-    ///    - completionHandlerForAuth: this is the completion handler passed from `authenticateWithUdacity`.
+    ///    - completionHandlerForAuth: this is the completion handler passed from either `authenticateWithUdacity` 
+    ///    or `authenticateWithUdacityFB`.
     internal func getUserPublicData(uniqueKey: String, completionHandlerForAuth: (success: Bool, error: NSError?) -> Void) {
         
         // 1. set the parameters
@@ -158,7 +256,7 @@ class API: NSObject {
         // 4. Make the request
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            // MARK: Utility function
+            // Utility function
             func sendError(error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
@@ -249,17 +347,14 @@ class API: NSObject {
         
     }
 
-    /// Uses REST API from Udacity to logout. It will then call `getUserPublicData`
-    /// which will store the user's informations in *Model.swift*.
+    /// Uses REST API from Udacity to logout.
     /// - note: uses keys defined in struct *Constants.swift*. **Expects non-optional Strings** so
     /// unwrap before calling this method.
     /// - parameters:
-    ///    - userEmail: the user's email address used to login to Udacity.
-    ///    - userPassword: the user's password to login to Udacity.
-    ///    - completionHandlerForAuth: this will be passed to `getUserPublicData`
+    ///    - completionHandlerForLogout: this will called with either success or failure
     /// - returns:
     ///    - success is `true` and error `nil` if login was successful and no error was returned from the API
-    ///    - success is `false` and an `NSError` if the login attempt failed
+    ///    - success is `false` and an `NSError` if the logout attempt failed
     func logoutFromUdacity(completionHandlerForLogout: (success: Bool, error: NSError?) -> Void) {
         
         // 1. set up the parameters
@@ -273,7 +368,7 @@ class API: NSObject {
         // 4. Make the request
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             
-            // MARK: Utility function
+            // Utility function
             func sendError(error: String) {
                 print(error)
                 // Build an informative NSError to return
@@ -319,7 +414,7 @@ class API: NSObject {
                 return
             }
             
-            if let sessionID = sessionDictionary[Constants.UDACITY.id] {
+            if sessionDictionary[Constants.UDACITY.id] != nil {
                     completionHandlerForLogout(success: true, error: nil)
                 } else {
                     sendError("Could not parse session ID from logout response")
@@ -337,7 +432,7 @@ class API: NSObject {
     /// Uses the REST API from Parse using Udacity's API Key to get students' location data
     /// and build an array of annotations to display on the map.
     ///
-    /// If successful the user data will be accessible from `Model.sharedInstance().studentLocations`
+    /// If successful the users data will be accessible from `Model.sharedInstance().studentLocations`
     /// - note: uses keys defined in struct *Constants.swift*.
     /// - parameters:
     ///    - completionHandlerForGetLocations: this is the completion handler called on completion.
@@ -447,8 +542,8 @@ class API: NSObject {
 
     }
     
-    /// This post a student location to the Parse API with the user provided data and the data collected
-    /// from the authentication from Udacity.
+    /// This post a student location to the Parse API with the user provided data and 
+    /// the data collected from the authentication from Udacity.
     ///
     /// Takes a non-optional student location, so unwrap before passing the parameter.
     /// Normally this would be unwrapping the `Model.sharedLocation().userInformation`
@@ -591,25 +686,6 @@ class API: NSObject {
 
     // MARK: Facebook Login
     
-    func authenticateWithFacebook(completionHandlerForFBAuth: (success: Bool, error: NSError?) -> Void) {
- 
-        // 1. set up the parameters
-        
-        let permissions = [
-            "public_profile"
-        ]
-        
-        
-        // 2./3. Build URL and configure the request
- 
-        
-        // 4. Make the request
-        
-        
-        
-        // 7. Start the request
-
-    }
     
     
     // MARK: Shared Instance

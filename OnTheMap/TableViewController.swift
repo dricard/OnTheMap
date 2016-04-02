@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -77,21 +79,35 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
-        
-        API.sharedInstance().logoutFromUdacity { (success, error) in
+
+        if Model.sharedInstance().loggedInWithFacebook {
+            let fbManager = FBSDKLoginManager()
+            fbManager.logOut()
+            Model.sharedInstance().loggedInWithFacebook = false
+            Model.sharedInstance().fbToken = nil
+            Model.sharedInstance().fbUserId = nil
+            performUIUpdatesOnMain({
+                if let tabBarController = self.tabBarController {
+                    tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                }})
             
-            guard (error == nil) else {
-                print("There was an error with loging out of Udacity: \(error)")
-                self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
-                return
-            }
-            
-            if success {
-                performUIUpdatesOnMain({
-                    if let tabBarController = self.tabBarController {
-                        tabBarController.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                })
+        } else {
+
+            API.sharedInstance().logoutFromUdacity { (success, error) in
+                
+                guard (error == nil) else {
+                    print("There was an error with loging out of Udacity: \(error)")
+                    self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
+                    return
+                }
+                
+                if success {
+                    performUIUpdatesOnMain({
+                        if let tabBarController = self.tabBarController {
+                            tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    })
+                }
             }
         }
     }

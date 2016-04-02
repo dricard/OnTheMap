@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 /// This displays a map with pins corresponding to student locations
 /// as returned by a Parse API.
@@ -89,21 +91,34 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func userTappedLogout(sender: AnyObject) {
 
-        API.sharedInstance().logoutFromUdacity { (success, error) in
-            
-            guard (error == nil) else {
-                print("There was an error with loging out of Udacity: \(error)")
-                self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
-                return
-            }
-            
-            if success {
+        if Model.sharedInstance().loggedInWithFacebook {
+            let fbManager = FBSDKLoginManager()
+            fbManager.logOut()
+            Model.sharedInstance().loggedInWithFacebook = false
+            Model.sharedInstance().fbToken = nil
+            Model.sharedInstance().fbUserId = nil
+            performUIUpdatesOnMain({
+                if let tabBarController = self.tabBarController {
+                    tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                }})
+           
+        } else {
+            API.sharedInstance().logoutFromUdacity { (success, error) in
+                
+                guard (error == nil) else {
+                    print("There was an error with loging out of Udacity: \(error)")
+                    self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
+                    return
+                }
+                
+                if success {
 
-                performUIUpdatesOnMain({
-                    if let tabBarController = self.tabBarController {
-                        tabBarController.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                })
+                    performUIUpdatesOnMain({
+                        if let tabBarController = self.tabBarController {
+                            tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    })
+                }
             }
         }
     }
