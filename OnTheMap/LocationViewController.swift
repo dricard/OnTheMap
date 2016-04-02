@@ -160,7 +160,6 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     // MARK: Textfield Delegates
     
     func textFieldDidBeginEditing(textField: UITextField) {
-        print("did begin editing with UITextField: \(textField)")
         textField.text = ""
     }
     
@@ -264,7 +263,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     
     
     func subscribeToKeyboardShowNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
     
     func unsubscribeToKeyboardShowNotifications() {
@@ -272,7 +271,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     }
     
     func subscribeToKeyboardHideNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LocationViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeToKeyboardHideNotification() {

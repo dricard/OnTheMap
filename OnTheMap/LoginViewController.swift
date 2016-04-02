@@ -7,15 +7,18 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 /// This is the first View that appears when the app is launched. It
 /// lets the user enter his/her credentials and then attempt to 
 /// authenticate with Udacity's API.
 ///
 /// The user has the option to:
-/// - login: with credentials, or
-/// - signup: to Udacity (this presents a web view)
-class LoginViewController: UIViewController, UITextFieldDelegate {
+/// - login: with credentials,
+/// - signup: to Udacity (this presents a web view), or
+/// - login using Facebook (this presents a web view)
+class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
 
     /// MARK: properties
     
@@ -27,8 +30,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var userEmail: UITextField!
     @IBOutlet weak var userPassword: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
     
+    @IBOutlet weak var loginButton: UIButton!
+    @IBOutlet weak var loginFBButton: FBSDKLoginButton!
     
     // MARK: life cycle
     
@@ -40,11 +44,12 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         // setting the text fields delegates
         userEmail.delegate = self
         userPassword.delegate = self
+        // setting the login with Facebook button delegate
+        loginFBButton.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        loginButton.enabled = true
         subscribeToKeyboardShowNotifications()
     }
     
@@ -77,7 +82,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
             return
         }
         // unwrap the parameters (even if they should not be nil at this point, but to be extra sure
-        // and we need non-optionals for the method call)
+        // and we need non-optionals for the method call anyways)
         if let userEmailString = userEmail.text, userPasswordString = userPassword.text {
             // call the authenticate method
             API.sharedInstance().authenticateWithUdacity(userEmailString, userPassword: userPasswordString) { (success, error) in
@@ -125,6 +130,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         
     }
     
+    
     // MARK: appearance and enabling/disabling of UI elements
     
     /// Sets the text attributes for the text fields.
@@ -140,7 +146,44 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
         return true
     }
     
+    // MARK: Facebook delegate
     
+    func loginButton(loginButton: FBSDKLoginButton!, didCompleteWithResult result: FBSDKLoginManagerLoginResult!, error: NSError!) {
+
+        guard error == nil else {
+            print("FB returned an error: \(error.localizedDescription)")
+            return
+        }
+        
+        if let userToken = result.token {
+            // Do something with the data
+            Model.sharedInstance().loggedInWithFacebook = true
+            API.sharedInstance().authenticateWithUdacityFB(userToken.tokenString) { (success, error) in
+                    performUIUpdatesOnMain {
+                        if success {
+                            self.completeLogin()
+                        } else {
+                            print("Error returned by authenticateWithUdacityFB: \(error)")
+                            if let error = error {
+                                if error.code == Constants.UDACITY.networkError {
+                                    self.presentAlertMessage("Network error", message: "There was a problem with the network connection, please make sure that you have a connection to the internet.")
+                                    
+                                } else {
+                                    self.presentAlertMessage("Authentication error", message: "Your credentials were refused, please check your email and password and try again or signup.")
+                                }
+                            }
+                        }
+                    }
+                }
+        }
+
+    }
+    
+    func loginButtonDidLogOut(loginButton: FBSDKLoginButton!) {
+        // reset boolean
+        Model.sharedInstance().loggedInWithFacebook = false
+    }
+        
     // MARK: utilities functions
     
     /// Tests if the provided textField is the first responder and, if so,
@@ -205,7 +248,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     
     
     func subscribeToKeyboardShowNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
     }
 
     func unsubscribeToKeyboardShowNotifications() {
@@ -213,7 +256,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate {
     }
     
     func subscribeToKeyboardHideNotification() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
     }
     
     func unsubscribeToKeyboardHideNotification() {

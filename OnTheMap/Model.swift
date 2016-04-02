@@ -16,10 +16,13 @@ import Foundation
 ///   Used when posting a new location to the Parse API.
 ///   - studentLocations: an array of StudentLocation structs that contains the informations
 ///   posted by students. Used to display information on the map or in the tableView.
+///   - loggedInWithFacebook: Bool - true if login process was through FB, false otherwise. 
+///   Used to manage login to Parse and login out
 class Model: NSObject {
 
     var userInformation: StudentLocation? = nil
     var studentLocations: [StudentLocation]? = nil
+    var loggedInWithFacebook: Bool = false
 
     override init() {
         super.init()

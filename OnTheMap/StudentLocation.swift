@@ -23,7 +23,10 @@ import UIKit
 ///   - createdAt: String - returned by Parse API when creating (posting) a new location.
 ///   - updatedAt: String - returned by Parse API when updating (posting) a new location.
 ///   - objectId: String - returned by Parse API when creating (posting) a new location.
-///   - imageUrl: String - used to hold the user's image URL for futur development.
+///   - mediaUrlIsValid: Bool - set to true if URL validation returned that URL seems valid
+///   ,false otherwise
+///   - mediaNSURL: NSURL - if the validation returned a valid URL, this holds the mediaUrl 
+///   in NSURL form. It is used to color the tableView based on the host.
 struct StudentLocation {
     
     var uniqueKey: String
@@ -78,7 +81,7 @@ struct StudentLocation {
     /// - returns:
     ///    - a valid NSURL, or
     ///    - `nil` if unsuccessful.
-    func validateURL(url: String) -> NSURL? {
+    private func validateURL(url: String) -> NSURL? {
         
         let types: NSTextCheckingType = .Link
         

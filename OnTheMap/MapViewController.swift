@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 /// This displays a map with pins corresponding to student locations
 /// as returned by a Parse API.
@@ -89,45 +91,49 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func userTappedLogout(sender: AnyObject) {
 
-        API.sharedInstance().logoutFromUdacity { (success, error) in
-            
-            guard (error == nil) else {
-                print("There was an error with loging out of Udacity: \(error)")
-                self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
-                return
-            }
-            
-            if success {
+        if Model.sharedInstance().loggedInWithFacebook {
+            let fbManager = FBSDKLoginManager()
+            fbManager.logOut()
+            Model.sharedInstance().loggedInWithFacebook = false
+            performUIUpdatesOnMain({
+                if let tabBarController = self.tabBarController {
+                    tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                }})
+           
+        } else {
+            API.sharedInstance().logoutFromUdacity { (success, error) in
+                
+                guard (error == nil) else {
+                    print("There was an error with loging out of Udacity: \(error)")
+                    self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
+                    return
+                }
+                
+                if success {
 
-                performUIUpdatesOnMain({
-                    if let tabBarController = self.tabBarController {
-                        tabBarController.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                })
+                    performUIUpdatesOnMain({
+                        if let tabBarController = self.tabBarController {
+                            tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    })
+                }
             }
         }
     }
     
     @IBAction func unwindToMap(unwindSegue: UIStoryboardSegue) {
-        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
-
-            if Model.sharedInstance().userInformation?.objectId != "" {
-
-                // first, fetch new data from Parse API
-                refreshData()
-                // then change the span to center on the newly posted area
-                let latitudeDelta = CLLocationDegrees(1.0)
-                let longitudeDelta = CLLocationDegrees(1.0)
-                let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
-                let coordinate = CLLocationCoordinate2D(latitude: (Model.sharedInstance().userInformation?.latitude)!, longitude: (Model.sharedInstance().userInformation?.longitude)!)
-                let region = MKCoordinateRegionMake(coordinate, span)
-                mapView.setRegion(region, animated: true)
-               
-            }
+        if Model.sharedInstance().userInformation?.objectId != "" {
             
-        }
-        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
-            print("Coming from location")
+            // fetch new data from Parse API to reflect newly posted location
+            refreshData()
+            // then change the span to center on the newly posted area
+            let latitudeDelta = CLLocationDegrees(1.0)
+            let longitudeDelta = CLLocationDegrees(1.0)
+            let span = MKCoordinateSpanMake(latitudeDelta, longitudeDelta)
+            let coordinate = CLLocationCoordinate2D(latitude: (Model.sharedInstance().userInformation?.latitude)!, longitude: (Model.sharedInstance().userInformation?.longitude)!)
+            let region = MKCoordinateRegionMake(coordinate, span)
+            mapView.setRegion(region, animated: true)
+            
         }
     }
 

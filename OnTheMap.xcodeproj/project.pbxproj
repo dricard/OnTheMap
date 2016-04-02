@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2140D8281CAC680000EC5B43 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */; };
+		2140D82A1CAC680E00EC5B43 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */; };
 		2147A9681C9B8AD8001F6E57 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147A9671C9B8AD7001F6E57 /* Model.swift */; };
 		21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21492BCB1C970AE600D2C90C /* MapViewController.swift */; };
 		215740F21CA5897F005A9A22 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215740F11CA5897F005A9A22 /* TableViewController.swift */; };
@@ -43,6 +45,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
+		2140D82B1CAC9BA700EC5B43 /* Facebook-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook-Bridging-Header.h"; sourceTree = "<group>"; };
 		2147A9671C9B8AD7001F6E57 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		21492BCB1C970AE600D2C90C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		215740F11CA5897F005A9A22 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2140D82A1CAC680E00EC5B43 /* FBSDKLoginKit.framework in Frameworks */,
+				2140D8281CAC680000EC5B43 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,6 +99,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2140D8261CAC67AF00EC5B43 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */,
+				2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		2147A9611C9B5821001F6E57 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -137,6 +153,7 @@
 			children = (
 				21C089051C9212C300CFF134 /* GCDUtilities.swift */,
 				21C088E11C92024F00CFF134 /* Info.plist */,
+				2140D82B1CAC9BA700EC5B43 /* Facebook-Bridging-Header.h */,
 			);
 			name = "Supporting files";
 			sourceTree = "<group>";
@@ -170,6 +187,7 @@
 				2147A9631C9B5834001F6E57 /* Controller */,
 				2147A9641C9B5859001F6E57 /* Assets */,
 				2147A9651C9B5932001F6E57 /* Supporting files */,
+				2140D8261CAC67AF00EC5B43 /* Frameworks */,
 			);
 			path = OnTheMap;
 			sourceTree = "<group>";
@@ -475,6 +493,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /Users/dr/Documents/FacebookSDK;
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexaedre.OnTheMap;
@@ -487,6 +506,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = /Users/dr/Documents/FacebookSDK;
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexaedre.OnTheMap;

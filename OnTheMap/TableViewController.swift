@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import FBSDKCoreKit
+import FBSDKLoginKit
 
 class TableViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
@@ -77,37 +79,42 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
     }
     
     @IBAction func userTappedLogout(sender: AnyObject) {
-        
-        API.sharedInstance().logoutFromUdacity { (success, error) in
+
+        if Model.sharedInstance().loggedInWithFacebook {
+            let fbManager = FBSDKLoginManager()
+            fbManager.logOut()
+            Model.sharedInstance().loggedInWithFacebook = false
+            performUIUpdatesOnMain({
+                if let tabBarController = self.tabBarController {
+                    tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                }})
             
-            guard (error == nil) else {
-                print("There was an error with loging out of Udacity: \(error)")
-                self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
-                return
-            }
-            
-            if success {
-                performUIUpdatesOnMain({
-                    if let tabBarController = self.tabBarController {
-                        tabBarController.dismissViewControllerAnimated(true, completion: nil)
-                    }
-                })
+        } else {
+
+            API.sharedInstance().logoutFromUdacity { (success, error) in
+                
+                guard (error == nil) else {
+                    print("There was an error with loging out of Udacity: \(error)")
+                    self.presentAlertMessage("Credentials", message: "Username or password invalid. Use the 'sign up' button below to register")
+                    return
+                }
+                
+                if success {
+                    performUIUpdatesOnMain({
+                        if let tabBarController = self.tabBarController {
+                            tabBarController.dismissViewControllerAnimated(true, completion: nil)
+                        }
+                    })
+                }
             }
         }
     }
     
     @IBAction func unwindToTable(unwindSegue: UIStoryboardSegue) {
-        if let postingViewController = unwindSegue.sourceViewController as? LocationPostingViewController {
-
-            if Model.sharedInstance().userInformation?.objectId != "" {
-                
-                // first, fetch new data from Parse API
-                refreshData()                
-            }
+        if Model.sharedInstance().userInformation?.objectId != "" {
             
-        }
-        else if let locationViewController = unwindSegue.sourceViewController as? LocationViewController {
-            print("Coming from location")
+            // fetch new data from Parse API to reflect newly posted location
+            refreshData()
         }
     }
 
