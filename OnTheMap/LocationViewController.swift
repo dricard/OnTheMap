@@ -34,6 +34,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var locationTextField: UITextField!
     @IBOutlet weak var findLocationButton: UIButton!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet weak var blurView: UIVisualEffectView!
     
     // MARK: life cycle
     
@@ -70,7 +71,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         let wide = evaluateIfWide(screenSize)
         setTextLabelsForUI(screenSize, wide: wide)
         findLocationButton.enabled = true
-        
+        blurView.alpha = 0
     }
     
     override func viewWillTransitionToSize(size: CGSize, withTransitionCoordinator coordinator: UIViewControllerTransitionCoordinator) {
@@ -96,6 +97,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         
         // prevent user from tapping button again before we're done
         findLocationButton.enabled = false
+        setBlur(true)
         // Starts an activity indicator while we send the geocode request
         activityIndicator.startAnimating()
 
@@ -137,6 +139,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
         // TODO: need to use cancelGeocode?
         findLocationButton.enabled = true
+        setBlur(false)
         activityIndicator.stopAnimating()
 
         self.dismissViewControllerAnimated(true, completion: nil )
@@ -149,6 +152,7 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
     /// URL while passing the coordinates to be displayed.
     func didReceiveGeocodeAddress(coordinates: CLLocationCoordinate2D) {
         // stop the activity indicator
+        setBlur(false)
         activityIndicator.stopAnimating()
         performUIUpdatesOnMain {
             let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationPostingView") as! LocationPostingViewController
@@ -236,6 +240,21 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
 
         activityIndicator.color = UIColor.blueColor()
         
+    }
+    
+    /// Sets a blur on/off over the View to indicate that we're geocoding the location
+    func setBlur(turnBlurOn: Bool) {
+        if turnBlurOn {
+            // here we set the blur over the view
+            UIView.animateWithDuration(0.5, animations: { 
+                self.blurView.alpha = 1
+            })
+        } else {
+            // here we remove the blur
+            UIView.animateWithDuration(0.5, animations: {
+                self.blurView.alpha = 0
+            })
+        }
     }
 
     // MARK: KEYBOARD FUNCTIONS

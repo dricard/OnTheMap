@@ -397,6 +397,14 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="20"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
+                            <visualEffectView opaque="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PV9-Ff-Gw9">
+                                <rect key="frame" x="0.0" y="-1" width="600" height="602"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="2NF-Dc-yl8">
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="602"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                </view>
+                                <blurEffect style="light"/>
+                            </visualEffectView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VHG-or-9Ob">
                                 <rect key="frame" x="282" y="281" width="37" height="37"/>
                             </activityIndicatorView>
@@ -410,6 +418,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="jFY-BO-fmj" secondAttribute="trailing" constant="16" id="Frw-yP-kuA"/>
                             <constraint firstAttribute="bottomMargin" secondItem="G75-fk-cnr" secondAttribute="bottom" constant="-1" id="G6V-35-7xf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="sli-Jt-5rd" secondAttribute="trailing" constant="-20" id="Len-eb-xXv"/>
+                            <constraint firstItem="PV9-Ff-Gw9" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="NHS-yw-0MP"/>
                             <constraint firstItem="dsw-ce-IvE" firstAttribute="top" secondItem="fA1-E4-buo" secondAttribute="bottom" constant="20" id="Nm7-M5-thT"/>
                             <constraint firstItem="4sI-ku-Ln1" firstAttribute="top" secondItem="BE6-hd-gyo" secondAttribute="bottom" id="Tt4-6e-wOn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="4sI-ku-Ln1" secondAttribute="trailing" constant="16" id="UUq-aK-0bO"/>
@@ -418,20 +427,24 @@
                             <constraint firstItem="fA1-E4-buo" firstAttribute="top" secondItem="jFY-BO-fmj" secondAttribute="bottom" constant="65" id="XWW-Dx-Qn9"/>
                             <constraint firstItem="G75-fk-cnr" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="bQN-cM-78x"/>
                             <constraint firstItem="jFY-BO-fmj" firstAttribute="top" secondItem="4sI-ku-Ln1" secondAttribute="bottom" constant="96" id="cEj-aS-bez"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="PV9-Ff-Gw9" secondAttribute="trailing" constant="-20" id="gop-vU-3EX"/>
                             <constraint firstItem="VHG-or-9Ob" firstAttribute="centerY" secondItem="E3p-5c-NCl" secondAttribute="centerY" id="kcy-ec-PMy"/>
                             <constraint firstItem="fA1-E4-buo" firstAttribute="centerX" secondItem="E3p-5c-NCl" secondAttribute="centerX" id="m4Z-Jh-wyF"/>
+                            <constraint firstAttribute="bottomMargin" secondItem="PV9-Ff-Gw9" secondAttribute="bottom" id="nVW-ks-oVY"/>
+                            <constraint firstItem="PV9-Ff-Gw9" firstAttribute="top" secondItem="E3p-5c-NCl" secondAttribute="topMargin" id="nkr-F9-Dgt"/>
                             <constraint firstItem="sli-Jt-5rd" firstAttribute="leading" secondItem="E3p-5c-NCl" secondAttribute="leadingMargin" constant="-20" id="pJw-Qn-bfJ"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="activityIndicator" destination="VHG-or-9Ob" id="nPy-Ss-bVV"/>
+                        <outlet property="blurView" destination="PV9-Ff-Gw9" id="KJf-JP-6tg"/>
                         <outlet property="findLocationButton" destination="fA1-E4-buo" id="cli-3N-sva"/>
                         <outlet property="locationTextField" destination="jFY-BO-fmj" id="QFD-pQ-CNa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="S1n-es-EsX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2813" y="462"/>
+            <point key="canvasLocation" x="2821" y="462"/>
         </scene>
         <!--Location Posting View Controller-->
         <scene sceneID="eog-eV-f38">
