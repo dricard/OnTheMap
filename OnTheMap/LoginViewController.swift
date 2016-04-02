@@ -157,8 +157,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         
         if let userToken = result.token {
             // Do something with the data
-            Model.sharedInstance().fbToken = userToken.tokenString
-            Model.sharedInstance().fbUserId = FBSDKAccessToken.currentAccessToken().userID
             Model.sharedInstance().loggedInWithFacebook = true
             API.sharedInstance().authenticateWithUdacityFB(userToken.tokenString) { (success, error) in
                     performUIUpdatesOnMain {

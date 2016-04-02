@@ -18,15 +18,11 @@ import Foundation
 ///   posted by students. Used to display information on the map or in the tableView.
 ///   - loggedInWithFacebook: Bool - true if login process was through FB, false otherwise. 
 ///   Used to manage login to Parse and login out
-///   - fbToken: String? - if logged in through FB, this holds the user token returned
-///   - fbUserId: String? - if logged in through FB, this holds the used id
 class Model: NSObject {
 
     var userInformation: StudentLocation? = nil
     var studentLocations: [StudentLocation]? = nil
     var loggedInWithFacebook: Bool = false
-    var fbToken: String?
-    var fbUserId: String?
 
     override init() {
         super.init()

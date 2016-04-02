@@ -84,8 +84,6 @@ class TableViewController: UIViewController, UITableViewDataSource, UITableViewD
             let fbManager = FBSDKLoginManager()
             fbManager.logOut()
             Model.sharedInstance().loggedInWithFacebook = false
-            Model.sharedInstance().fbToken = nil
-            Model.sharedInstance().fbUserId = nil
             performUIUpdatesOnMain({
                 if let tabBarController = self.tabBarController {
                     tabBarController.dismissViewControllerAnimated(true, completion: nil)
