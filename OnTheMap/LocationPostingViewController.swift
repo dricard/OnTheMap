@@ -45,8 +45,14 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         labelURL.font = UIFont.boldSystemFontOfSize(18)
         labelURL.text = "URL"
         self.view.addSubview(labelURL)
+        urlTextField.delegate = self
 
         configureActivityIndicatorView()
+
+        // Add 'tap' gesture to dismiss keyboard when done adding/editing to-do item
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LocationViewController.tapOutside(_:)))
+        tap.cancelsTouchesInView = true
+        self.view.addGestureRecognizer(tap)
 
     }
     
@@ -76,6 +82,20 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     // MARK: Actions from user
     
     @IBAction func userPressedSubmit(sender: AnyObject) {
+        
+        // check to see if there is an objectId, which means this will be an update and not
+        // a new posting. So newPosting is true if the objectId is empty.
+        let newPosting = Model.sharedInstance().userInformation?.objectId == ""
+
+        if newPosting {
+            proceedWithPosting(true)
+        } else {
+            presentAlertMessageWithOption("Update?", message: "You already posted a location, are you sure you want to update it?", newPosting: newPosting)
+        }
+        
+    }
+    
+    func proceedWithPosting(newPosting: Bool) {
         
         // GUARD: check to see if the textField is empty
         guard let mediaUrl = urlTextField.text where !mediaUrl.isEmpty else {
@@ -107,10 +127,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         
         // Starts an activity indicator while we send the geocode request
         activityIndicator.startAnimating()
-
-        // check to see if there is an objectId, which means this will be an update and not
-        // a new posting. So newPosting is true if the objectId is empty.
-        let newPosting = Model.sharedInstance().userInformation?.objectId == ""
+        
         API.sharedInstance().postStudentLocation(newPosting, studentLocation: studentLocation) { (objectId, createdAt, error) -> Void in
             performUIUpdatesOnMain {
                 if error == nil {
@@ -120,10 +137,7 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
                     self.presentAlertMessage("Error", message: "There was an error sending your information to the server, please check the network connection and try again.")
                 }
             }
-
         }
-        
-        
     }
     
     func completePosting(isNewPosting: Bool, objectId: String?, createdAt: String?) {
@@ -157,13 +171,17 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
     
     @IBAction func userPressedCancel(sender: AnyObject) {
    
-//        activityIndicator.stopAnimating()
+        activityIndicator.stopAnimating()
         
         self.dismissViewControllerAnimated(true, completion: nil )
 
     }
     
-    
+    func tapOutside(tapOutside: UIGestureRecognizer) {
+        // Dismiss keyboard
+        self.view.endEditing(true)
+    }
+  
     // MARK: MapView Delegates
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -183,6 +201,18 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         
         return pinView
     }
+
+    // MARK: Textfield Delegates
+    
+    func textFieldDidBeginEditing(textField: UITextField) {
+        textField.text = "http://"
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
 
     // MARK: Utilities functions
     
@@ -221,6 +251,21 @@ class LocationPostingViewController: UIViewController, UITextFieldDelegate, MKMa
         
         let okAction = UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: { action in self.dismissViewControllerAnimated(true, completion: nil ) })
         controller.addAction(okAction)
+        self.presentViewController(controller, animated: true, completion: nil)
+        
+    }
+
+    /// Display a two-button alert message to communicate choices to the user. Display a title, a message, and
+    /// an 'OK' button.
+    func presentAlertMessageWithOption(title: String, message: String, newPosting: Bool) {
+        let controller = UIAlertController(title: title, message: message, preferredStyle: .ActionSheet)
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: { action in  })
+        controller.addAction(cancelAction)
+        let goAheadAction = UIAlertAction(title: "Post Location", style: UIAlertActionStyle.Default, handler: { (action) -> Void in
+            self.proceedWithPosting(newPosting)
+        })
+        controller.addAction(goAheadAction)
         self.presentViewController(controller, animated: true, completion: nil)
         
     }

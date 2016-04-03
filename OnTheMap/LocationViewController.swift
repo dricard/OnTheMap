@@ -56,10 +56,17 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         labelInformation.text = "information"
         self.view.addSubview(labelInformation)
 
+        // set the text field delegate
+        locationTextField.delegate = self
+        
         // configure the activity indicator we'll use while geocoding
         configureActivityIndicatorView()
         
-        
+        // Add 'tap' gesture to dismiss keyboard when done adding/editing to-do item
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(LocationViewController.tapOutside(_:)))
+        tap.cancelsTouchesInView = true
+        self.view.addGestureRecognizer(tap)
+       
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -143,6 +150,11 @@ class LocationViewController: UIViewController, UITextFieldDelegate {
         activityIndicator.stopAnimating()
 
         self.dismissViewControllerAnimated(true, completion: nil )
+    }
+
+    func tapOutside(tapOutside: UIGestureRecognizer) {
+        // Dismiss keyboard
+        self.view.endEditing(true)
     }
 
     // MARK: GOECODE Utilities
