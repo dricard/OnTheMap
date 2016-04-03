@@ -7,10 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2140D8281CAC680000EC5B43 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */; };
-		2140D82A1CAC680E00EC5B43 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */; };
 		2147A9681C9B8AD8001F6E57 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2147A9671C9B8AD7001F6E57 /* Model.swift */; };
 		21492BCC1C970AE600D2C90C /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21492BCB1C970AE600D2C90C /* MapViewController.swift */; };
+		2151BA2D1CB0AA8500F7EF77 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2151BA2C1CB0AA8500F7EF77 /* FBSDKCoreKit.framework */; };
+		2151BA2F1CB0AA9200F7EF77 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2151BA2E1CB0AA9200F7EF77 /* FBSDKLoginKit.framework */; };
 		215740F21CA5897F005A9A22 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215740F11CA5897F005A9A22 /* TableViewController.swift */; };
 		216C3D081C934ECB00443DDB /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D071C934ECB00443DDB /* Constants.swift */; };
 		216C3D0C1C9362C900443DDB /* StudentLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216C3D0B1C9362C900443DDB /* StudentLocation.swift */; };
@@ -45,11 +45,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
-		2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		2140D82B1CAC9BA700EC5B43 /* Facebook-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Facebook-Bridging-Header.h"; sourceTree = "<group>"; };
 		2147A9671C9B8AD7001F6E57 /* Model.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		21492BCB1C970AE600D2C90C /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		2151BA2C1CB0AA8500F7EF77 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKCoreKit.framework; sourceTree = "<group>"; };
+		2151BA2E1CB0AA9200F7EF77 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		215740F11CA5897F005A9A22 /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		216C3D071C934ECB00443DDB /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		216C3D0B1C9362C900443DDB /* StudentLocation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentLocation.swift; sourceTree = "<group>"; };
@@ -77,8 +77,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2140D82A1CAC680E00EC5B43 /* FBSDKLoginKit.framework in Frameworks */,
-				2140D8281CAC680000EC5B43 /* FBSDKCoreKit.framework in Frameworks */,
+				2151BA2F1CB0AA9200F7EF77 /* FBSDKLoginKit.framework in Frameworks */,
+				2151BA2D1CB0AA8500F7EF77 /* FBSDKCoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +102,8 @@
 		2140D8261CAC67AF00EC5B43 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2140D8291CAC680E00EC5B43 /* FBSDKLoginKit.framework */,
-				2140D8271CAC680000EC5B43 /* FBSDKCoreKit.framework */,
+				2151BA2E1CB0AA9200F7EF77 /* FBSDKLoginKit.framework */,
+				2151BA2C1CB0AA8500F7EF77 /* FBSDKCoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -493,7 +493,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/dr/Documents/FacebookSDK;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/dr/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexaedre.OnTheMap;
@@ -506,7 +509,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				FRAMEWORK_SEARCH_PATHS = /Users/dr/Documents/FacebookSDK;
+				FRAMEWORK_SEARCH_PATHS = (
+					/Users/dr/Documents/FacebookSDK,
+					"$(PROJECT_DIR)/OnTheMap",
+				);
 				INFOPLIST_FILE = OnTheMap/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.hexaedre.OnTheMap;
