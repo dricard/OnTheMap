@@ -57,6 +57,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         super.viewWillAppear(animated)
         subscribeToKeyboardShowNotifications()
         blurView.alpha = 0
+        activityIndicator.stopAnimating()
     }
     
     override func viewWillDisappear(animated: Bool) {
