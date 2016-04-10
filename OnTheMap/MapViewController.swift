@@ -176,11 +176,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     // MARK: utilities
     
-//    func enterLocation() {
-//        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("LocationView") as! LocationViewController
-//        self.presentViewController(controller, animated: true, completion: nil)
-//    }
-    
     func showUrl(url: String) {
         UIApplication.sharedApplication().openURL(NSURL(string: url)!)
     }
