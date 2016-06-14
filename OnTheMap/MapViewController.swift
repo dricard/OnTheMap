@@ -141,6 +141,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     //Opens the mediaURL in Safari when the annotation info box is tapped.
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+
         if let urlString = view.annotation!.subtitle! {
             let prefix = String(urlString.characters.prefix(2))
             if prefix == "?:" {
@@ -157,7 +158,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
 
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
-                
+        
         let reuseId = "pin"
         
         var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
