@@ -48,7 +48,7 @@ struct Constants {
     struct PARSE {
         
         // getting student locations
-        static let baseUrl = "https://api.parse.com/1/classes/StudentLocation"
+        static let baseUrl = "https://parse.udacity.com/parse/classes/StudentLocation"
         // Parameters
         static let order = "order"
         // location data response

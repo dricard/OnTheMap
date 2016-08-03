@@ -35,7 +35,7 @@ class API: NSObject {
         super.init()
     }
     
-    // MARK: UDACITY API
+    // MARK: - UDACITY API
 
     // First we create a session with Udacity API to authenticate the user and get a uniqueKey
     
